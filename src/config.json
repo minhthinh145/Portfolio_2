@@ -1,0 +1,179 @@
+{
+  "personal": {
+    "name": "Thinh",
+    "title": "Full Stack Developer",
+    "tagline": "A passionate developer crafting beautiful digital experiences with modern technologies.",
+    "email": "minhthinh.221005@gmail.com",
+    "phone": "+84 98 4250 431",
+    "location": "Ho Chi Minh City, Vietnam",
+    "available": true,
+    "availableText": "I'm open for freelance projects and full-time opportunities. Let's create something amazing together!"
+  },
+  "social": {
+    "github": "https://github.com/minhthinh145",
+    "linkedin": "https://linkedin.com/in/thinhphan2210",
+    "twitter": "https://twitter.com/yourusername",
+    "instagram": "https://instagram.com/yourusername"
+  },
+  "cv": {
+    "pdfPath": "/cv.pdf",
+    "downloadName": "Thinh_CV.pdf"
+  },
+  "about": {
+    "profileImage": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop",
+    "bio": [
+      "When I'm not immersed in code, you'll find me exploring the world through my camera lens, getting lost in a good book, or hunting for the perfect cup of specialty coffee.",
+      "I believe that diverse experiences fuel creativity. Every new place I visit, every song I learn, every game I play - they all contribute to how I approach problem-solving and design.",
+      "My philosophy is simple: stay curious, keep learning, and never stop creating. Life is too short for boring things."
+    ],
+    "quote": {
+      "text": "The best way to predict the future is to create it.",
+      "author": "Peter Drucker"
+    }
+  },
+  "skills": [
+    {
+      "name": "Frontend",
+      "icon": "Monitor",
+      "items": [
+        { "name": "React", "color": "#61DAFB", "emoji": "⚛️" },
+        { "name": "Angular", "color": "#DD0031", "emoji": "🅰️" },
+        { "name": "Redux", "color": "#764ABC", "emoji": "🔄" },
+        { "name": "Tailwind CSS", "color": "#06B6D4", "emoji": "🎨" }
+      ]
+    },
+    {
+      "name": "Backend Frameworks",
+      "icon": "Server",
+      "items": [
+        { "name": "Java Spring Boot", "color": "#6DB33F", "emoji": "🍃", "highlight": true },
+        { "name": "ASP.NET Core", "color": "#512BD4", "emoji": "🟣", "highlight": true },
+        { "name": "Node.js", "color": "#339933", "emoji": "💚" },
+        { "name": "Python Django", "color": "#44B78B", "emoji": "🐍" },
+        { "name": "PHP Laravel", "color": "#FF2D20", "emoji": "🔺" }
+      ]
+    },
+    {
+      "name": "Databases",
+      "icon": "Database",
+      "items": [
+        { "name": "PostgreSQL", "color": "#4169E1", "emoji": "🐘" },
+        { "name": "SQL Server", "color": "#CC2927", "emoji": "🗄️" },
+        { "name": "MongoDB", "color": "#47A248", "emoji": "🍃" },
+        { "name": "Oracle", "color": "#F80000", "emoji": "🔴" },
+        { "name": "Neo4j", "color": "#008CC1", "emoji": "🔗" }
+      ]
+    },
+    {
+      "name": "Design",
+      "icon": "Palette",
+      "items": [
+        { "name": "Figma", "color": "#F24E1E", "emoji": "🎨" }
+      ]
+    },
+    {
+      "name": "Tools",
+      "icon": "Wrench",
+      "items": [
+        { "name": "Git", "color": "#F05032", "emoji": "📦" },
+        { "name": "Docker", "color": "#2496ED", "emoji": "🐳" },
+        { "name": "AWS", "color": "#FF9900", "emoji": "☁️" },
+        { "name": "CI/CD", "color": "#4CAF50", "emoji": "🔄" }
+      ]
+    }
+  ],
+  "experiences": [
+    {
+      "year": "Oct 2025 - Jan 2026",
+      "title": "Software Engineer Intern (Fullstack Developer)",
+      "company": "ETECHS - Software Solutions for Education",
+      "description": "Developed high-performance web interfaces using ReactJS integrated with Python (Django) backend. Built internal digital transformation tools, focusing on automation testing and developing Backend services for management systems."
+    }
+  ],
+  "education": [
+    {
+      "year": "July 2023 - Present",
+      "degree": "B.S. in Information Technology",
+      "school": "University of Education - HCMUE",
+      "schoolUrl": "https://hcmue.edu.vn/vi/",
+      "gpa": "3.2/4.0",
+      "achievements": [
+        "Academic Incentive Scholarship - Top 5 students (Semester 2, 2024–2025)",
+        "AEON 1% Scholarship for Academic & Extracurricular Excellence (2025-2027)"
+      ]
+    }
+  ],
+  "hobbies": [
+    { "name": "Music", "icon": "Music", "description": "Playing guitar and discovering new artists" },
+    { "name": "Photography", "icon": "Camera", "description": "Capturing moments and street photography" },
+    { "name": "Gaming", "icon": "Gamepad2", "description": "Indie games and story-driven adventures" },
+    { "name": "Reading", "icon": "BookOpen", "description": "Sci-fi, philosophy, and tech books" },
+    { "name": "Coffee", "icon": "Coffee", "description": "Exploring specialty coffee and brewing methods" },
+    { "name": "Travel", "icon": "Plane", "description": "Exploring new cultures and cuisines" }
+  ],
+  "gallery": [
+    { "id": 1, "src": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop", "title": "Mountain Adventure", "location": "Swiss Alps" },
+    { "id": 2, "src": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&h=600&fit=crop", "title": "Tokyo Streets", "location": "Japan" },
+    { "id": 3, "src": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop", "title": "Portrait Session", "location": "Studio" },
+    { "id": 4, "src": "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=800&h=600&fit=crop", "title": "Beach Sunset", "location": "Bali" },
+    { "id": 5, "src": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&h=600&fit=crop", "title": "Night Sky", "location": "Norway" },
+    { "id": 6, "src": "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&h=600&fit=crop", "title": "Lake Morning", "location": "New Zealand" }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "title": "ThinhPay - Digital Payment Platform",
+      "description": "A Modular Monolith fintech system simulating core banking operations. Built with Domain-Driven Design (DDD) and Hexagonal Architecture. Features secure RESTful APIs, JWT authentication, and Redis caching. Full-stack with Angular frontend and Spring Boot backend.",
+      "image": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop",
+      "category": "Fintech",
+      "tech": ["Java Spring Boot", "Angular", "Spring Security", "Redis", "PostgreSQL", "Docker"],
+      "liveUrl": "",
+      "githubUrl": "https://github.com/minhthinh145/ThinhPay",
+      "featured": true
+    },
+    {
+      "id": 2,
+      "title": "HCMUE Course Registration System",
+      "description": "Full-stack course registration system for HCMUE university. Built with React + TypeScript frontend using Redux Toolkit for state management. Django REST API backend with PostgreSQL on Neon. Containerized with Docker for easy deployment.",
+      "image": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&h=400&fit=crop",
+      "category": "Education",
+      "tech": ["ReactJS", "TypeScript", "Redux Toolkit", "Python Django", "PostgreSQL", "Docker"],
+      "liveUrl": "",
+      "githubUrl": "https://github.com/minhthinh145/PythonFinalProject",
+      "featured": true
+    },
+    {
+      "id": 3,
+      "title": "KaraokeHKT - Management System",
+      "description": "Full-stack karaoke venue management system with booking, room management, and billing features. ReactJS frontend deployed on Vercel, ASP.NET Core Web API backend for robust business logic.",
+      "image": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&h=400&fit=crop",
+      "category": "Business",
+      "tech": ["ReactJS", "ASP.NET Core", "Web API", "SQL Server"],
+      "liveUrl": "https://ooad-karaoke-hkt.vercel.app",
+      "githubUrl": "https://github.com/minhthinh145/KaraokeHKT_Ecommerce",
+      "featured": true
+    },
+    {
+      "id": 4,
+      "title": "Java E-Commerce Keyboard Platform",
+      "description": "Fullstack e-commerce platform migrated to Java Spring ecosystem. RESTful backend with Spring Boot, Repository Pattern and Spring Data JPA. Secure authentication using Spring Security and JWT.",
+      "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&h=400&fit=crop",
+      "category": "E-Commerce",
+      "tech": ["Spring Boot", "Spring Security", "PostgreSQL", "Hibernate", "Lombok"],
+      "liveUrl": "",
+      "githubUrl": "https://github.com/minhthinh145",
+      "featured": false
+    },
+    {
+      "id": 5,
+      "title": "Knowledge Graph for STEM Education",
+      "description": "Research project applying Neo4j for knowledge graph modeling to structure complex educational data. Web application powered by Spring Data Neo4j for efficient graph queries.",
+      "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+      "category": "Research",
+      "tech": ["Neo4j", "Spring Data Neo4j", "Java", "Knowledge Graph"],
+      "liveUrl": "",
+      "githubUrl": "https://github.com/minhthinh145",
+      "featured": false
+    }
+  ]
+}
