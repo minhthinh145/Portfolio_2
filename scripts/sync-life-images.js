@@ -19,12 +19,8 @@ function getImageFiles(folderPath) {
   return files
     .filter((file) => {
       const ext = path.extname(file).toLowerCase();
-      return (
-        imageExtensions.includes(ext) &&
-        file !== "featured.jpg" &&
-        file !== "featured.jpeg" &&
-        file !== "featured.png"
-      );
+      const baseName = path.basename(file, ext);
+      return imageExtensions.includes(ext) && baseName !== "featured";
     })
     .sort((a, b) => {
       // Sort numerically if possible (1.jpg, 2.jpg, 3.jpg...)

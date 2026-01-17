@@ -16,7 +16,7 @@
       "name": "My Cat", 
       "icon": "Cat",
       "banner": {
-        "image": "/images/life/my-cat/banner.jpg",
+        "image": "/images/life/my-cat/banner.webp",
         "title": "My Cat",
         "subtitle": "Meet my fluffy coding companion 🐱"
       }
@@ -26,7 +26,7 @@
       "name": "Life in HCMUE", 
       "icon": "GraduationCap",
       "banner": {
-        "image": "/images/life/hcmue/banner.jpg",
+        "image": "/images/life/hcmue/banner.webp",
         "title": "Life in HCMUE",
         "subtitle": "My university journey at Ho Chi Minh University of Education 🎓"
       }
@@ -36,7 +36,7 @@
       "name": "A Day in My Life", 
       "icon": "Clock",
       "banner": {
-        "image": "/images/life/daily/banner.jpg",
+        "image": "/images/life/daily/banner.webp",
         "title": "A Day in My Life",
         "subtitle": "An average day as a software engineer ⏰"
       }
@@ -46,7 +46,7 @@
       "name": "Travel", 
       "icon": "Plane",
       "banner": {
-        "image": "/images/life/travel/banner.jpg",
+        "image": "/images/life/travel/banner.webp",
         "title": "Travel",
         "subtitle": "Exploring the world, one destination at a time ✈️"
       }
