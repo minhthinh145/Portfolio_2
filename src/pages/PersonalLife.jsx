@@ -122,6 +122,8 @@ export default function PersonalLife() {
             src={activeCategoryInfo.banner.image}
             alt={activeCategoryInfo.banner.title}
             className="w-full h-full object-contain bg-zinc-900 rounded-2xl"
+            loading="eager"
+            decoding="async"
             onError={(e) => {
               e.target.src =
                 "https://images.unsplash.com/photo-1557683316-973673baf926?w=1600&h=600&fit=crop";
@@ -241,6 +243,8 @@ export default function PersonalLife() {
                             src={post.featuredImage}
                             alt={post.title}
                             className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                            loading="lazy"
+                            decoding="async"
                           />
                         </div>
 
@@ -304,6 +308,8 @@ export default function PersonalLife() {
                                 src={img.src}
                                 alt={img.caption || `Photo ${index + 1}`}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                loading="lazy"
+                                decoding="async"
                               />
                             </button>
                           ))}
