@@ -28,6 +28,30 @@ const iconMap = {
   Plane,
 };
 
+// LazyImage component with loading skeleton
+function LazyImage({ src, alt, className, onClick }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  return (
+    <div className="relative w-full h-full" onClick={onClick}>
+      {/* Skeleton loader */}
+      {!isLoaded && !hasError && (
+        <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-700 animate-pulse rounded-xl" />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        className={`${className} ${isLoaded ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setIsLoaded(true)}
+        onError={() => setHasError(true)}
+      />
+    </div>
+  );
+}
+
 // Merge all posts with their category
 const allPosts = [
   ...myCatPosts.posts.map((p) => ({ ...p, category: "my-cat" })),
@@ -232,19 +256,15 @@ export default function PersonalLife() {
                     <div className="p-6">
                       <div className="flex items-start gap-4">
                         {/* Featured Image */}
-                        <div
-                          className="w-24 h-24 md:w-32 md:h-32 rounded-xl overflow-hidden shrink-0 cursor-pointer"
-                          onClick={() =>
-                            post.images.length > 0 &&
-                            openLightbox(post.images, 0)
-                          }
-                        >
-                          <img
+                        <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl overflow-hidden shrink-0 cursor-pointer">
+                          <LazyImage
                             src={post.featuredImage}
                             alt={post.title}
                             className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-                            loading="lazy"
-                            decoding="async"
+                            onClick={() =>
+                              post.images.length > 0 &&
+                              openLightbox(post.images, 0)
+                            }
                           />
                         </div>
 
@@ -299,19 +319,17 @@ export default function PersonalLife() {
                       <div className="px-6 pb-6 border-t border-border dark:border-zinc-800 pt-4">
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                           {post.images.map((img, index) => (
-                            <button
+                            <div
                               key={index}
-                              onClick={() => openLightbox(post.images, index)}
                               className="aspect-square rounded-xl overflow-hidden cursor-pointer hover:ring-2 hover:ring-accent transition-all group"
                             >
-                              <img
+                              <LazyImage
                                 src={img.src}
                                 alt={img.caption || `Photo ${index + 1}`}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                loading="lazy"
-                                decoding="async"
+                                onClick={() => openLightbox(post.images, index)}
                               />
-                            </button>
+                            </div>
                           ))}
                         </div>
                       </div>
