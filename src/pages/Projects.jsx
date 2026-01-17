@@ -1,12 +1,19 @@
 import { useState } from "react";
 import { ExternalLink, Github, Folder } from "lucide-react";
-import config from "../config.json";
+import projectsData from "../data/projects.json";
 
-const categories = ["All", "Web App", "Mobile", "Design", "Open Source"];
+const categories = [
+  "All",
+  "Fintech",
+  "Education",
+  "Business",
+  "E-Commerce",
+  "Research",
+];
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const { projects } = config;
+  const { projects } = projectsData;
 
   const filteredProjects =
     activeCategory === "All"

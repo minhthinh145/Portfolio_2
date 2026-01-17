@@ -1,0 +1,59 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "ThinhPay - Digital Payment Platform",
+      "description": "A Modular Monolith fintech system simulating core banking operations. Built with Domain-Driven Design (DDD) and Hexagonal Architecture. Features secure RESTful APIs, JWT authentication, and Redis caching. Full-stack with Angular frontend and Spring Boot backend.",
+      "image": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop",
+      "category": "Fintech",
+      "tech": ["Java Spring Boot", "Angular", "Spring Security", "Redis", "PostgreSQL", "Docker"],
+      "liveUrl": "",
+      "githubUrl": "https://github.com/minhthinh145/ThinhPay",
+      "featured": true
+    },
+    {
+      "id": 2,
+      "title": "HCMUE Course Registration System",
+      "description": "Full-stack course registration system for HCMUE university. Built with React + TypeScript frontend using Redux Toolkit for state management. Django REST API backend with PostgreSQL on Neon. Containerized with Docker for easy deployment.",
+      "image": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&h=400&fit=crop",
+      "category": "Education",
+      "tech": ["ReactJS", "TypeScript", "Redux Toolkit", "Python Django", "PostgreSQL", "Docker"],
+      "liveUrl": "",
+      "githubUrl": "https://github.com/minhthinh145/PythonFinalProject",
+      "featured": true
+    },
+    {
+      "id": 3,
+      "title": "KaraokeHKT - Management System",
+      "description": "Full-stack karaoke venue management system with booking, room management, and billing features. ReactJS frontend deployed on Vercel, ASP.NET Core Web API backend for robust business logic.",
+      "image": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&h=400&fit=crop",
+      "category": "Business",
+      "tech": ["ReactJS", "ASP.NET Core", "Web API", "SQL Server"],
+      "liveUrl": "https://ooad-karaoke-hkt.vercel.app",
+      "githubUrl": "https://github.com/minhthinh145/KaraokeHKT_Ecommerce",
+      "featured": true
+    },
+    {
+      "id": 4,
+      "title": "Java E-Commerce Keyboard Platform",
+      "description": "Fullstack e-commerce platform migrated to Java Spring ecosystem. RESTful backend with Spring Boot, Repository Pattern and Spring Data JPA. Secure authentication using Spring Security and JWT.",
+      "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&h=400&fit=crop",
+      "category": "E-Commerce",
+      "tech": ["Spring Boot", "Spring Security", "PostgreSQL", "Hibernate", "Lombok"],
+      "liveUrl": "",
+      "githubUrl": "https://github.com/minhthinh145",
+      "featured": false
+    },
+    {
+      "id": 5,
+      "title": "Knowledge Graph for STEM Education",
+      "description": "Research project applying Neo4j for knowledge graph modeling to structure complex educational data. Web application powered by Spring Data Neo4j for efficient graph queries.",
+      "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+      "category": "Research",
+      "tech": ["Neo4j", "Spring Data Neo4j", "Java", "Knowledge Graph"],
+      "liveUrl": "",
+      "githubUrl": "https://github.com/minhthinh145",
+      "featured": false
+    }
+  ]
+}

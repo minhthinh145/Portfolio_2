@@ -1,0 +1,22 @@
+{
+  "personal": {
+    "name": "Thinh",
+    "title": "Full Stack Developer",
+    "tagline": "A passionate developer crafting beautiful digital experiences with modern technologies.",
+    "email": "minhthinh.221005@gmail.com",
+    "phone": "+84 98 4250 431",
+    "location": "Ho Chi Minh City, Vietnam",
+    "available": true,
+    "availableText": "I'm open for freelance projects and full-time opportunities. Let's create something amazing together!"
+  },
+  "social": {
+    "github": "https://github.com/minhthinh145",
+    "linkedin": "https://linkedin.com/in/thinhphan2210",
+    "twitter": "https://twitter.com/yourusername",
+    "instagram": "https://instagram.com/yourusername"
+  },
+  "cv": {
+    "pdfPath": "/cv.pdf",
+    "downloadName": "Thinh_CV.pdf"
+  }
+}

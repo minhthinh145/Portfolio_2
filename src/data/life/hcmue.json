@@ -1,0 +1,25 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "folder": "first-day",
+      "title": "First Day at HCMUE",
+      "date": "2023-09-01",
+      "description": "The beginning of my journey at Ho Chi Minh University of Education. Nervous but excited to start this new chapter.",
+      "featuredImage": "/images/life/hcmue/first-day/featured.jpg",
+      "images": []
+    },
+    {
+      "id": 2,
+      "folder": "aeon-scholarship",
+      "title": "AEON 1% Scholarship Award Ceremony",
+      "date": "2025-06-15",
+      "description": "A proud milestone! I traveled to Hanoi to receive the AEON 1% Scholarship, awarded for academic and extracurricular excellence. This scholarship recognizes the top 1% of students nationwide. The ceremony was an incredible experience and a reminder that hard work truly pays off.",
+      "featuredImage": "/images/life/hcmue/aeon-scholarship/featured.jpg",
+      "images": [
+        { "src": "/images/life/hcmue/aeon-scholarship/1.jpg", "caption": "Photo 1" },
+        { "src": "/images/life/hcmue/aeon-scholarship/2.jpg", "caption": "Photo 2" }
+      ]
+    }
+  ]
+}

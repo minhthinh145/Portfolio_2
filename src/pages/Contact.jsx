@@ -11,7 +11,7 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
-import config from "../config.json";
+import globalData from "../data/global.json";
 
 const iconMap = {
   Github,
@@ -27,7 +27,7 @@ export default function Contact() {
     message: "",
   });
   const [status, setStatus] = useState(null);
-  const { personal, social } = config;
+  const { personal, social } = globalData;
 
   const contactInfo = [
     {

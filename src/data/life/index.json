@@ -1,0 +1,55 @@
+{
+  "hero": {
+    "title": "My Life",
+    "subtitle": "Beyond the code - a glimpse into my world",
+    "profileImage": "/images/profile-life.jpg"
+  },
+  "categories": [
+    { 
+      "id": "all", 
+      "name": "All", 
+      "icon": "LayoutGrid",
+      "banner": null
+    },
+    { 
+      "id": "my-cat", 
+      "name": "My Cat", 
+      "icon": "Cat",
+      "banner": {
+        "image": "/images/life/my-cat/banner.jpg",
+        "title": "My Cat",
+        "subtitle": "Meet my fluffy coding companion 🐱"
+      }
+    },
+    { 
+      "id": "hcmue", 
+      "name": "Life in HCMUE", 
+      "icon": "GraduationCap",
+      "banner": {
+        "image": "/images/life/hcmue/banner.jpg",
+        "title": "Life in HCMUE",
+        "subtitle": "My university journey at Ho Chi Minh University of Education 🎓"
+      }
+    },
+    { 
+      "id": "daily", 
+      "name": "A Day in My Life", 
+      "icon": "Clock",
+      "banner": {
+        "image": "/images/life/daily/banner.jpg",
+        "title": "A Day in My Life",
+        "subtitle": "An average day as a software engineer ⏰"
+      }
+    },
+    { 
+      "id": "travel", 
+      "name": "Travel", 
+      "icon": "Plane",
+      "banner": {
+        "image": "/images/life/travel/banner.jpg",
+        "title": "Travel",
+        "subtitle": "Exploring the world, one destination at a time ✈️"
+      }
+    }
+  ]
+}

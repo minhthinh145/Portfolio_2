@@ -6,10 +6,10 @@ import {
   Upload,
   AlertCircle,
 } from "lucide-react";
-import config from "../config.json";
+import globalData from "../data/global.json";
 
 export default function CV() {
-  const { personal, cv } = config;
+  const { personal, cv } = globalData;
   const [pdfExists, setPdfExists] = useState(true);
   const [loading, setLoading] = useState(true);
 

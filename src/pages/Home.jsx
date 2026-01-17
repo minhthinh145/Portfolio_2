@@ -28,7 +28,8 @@ import {
   SiGithubactions,
 } from "react-icons/si";
 import { TbDatabase } from "react-icons/tb";
-import config from "../config.json";
+import globalData from "../data/global.json";
+import homeData from "../data/home.json";
 
 // Category icon mapping
 const categoryIconMap = {
@@ -63,7 +64,8 @@ const techLogoMap = {
 };
 
 export default function Home() {
-  const { personal, skills, experiences, education } = config;
+  const { personal } = globalData;
+  const { skills, experiences, education } = homeData;
 
   return (
     <div className="min-h-screen">

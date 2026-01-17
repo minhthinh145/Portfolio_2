@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Github, Linkedin, Mail, Heart, ArrowUp } from "lucide-react";
-import config from "../config.json";
+import globalData from "../data/global.json";
 
 const footerLinks = [
   { name: "Home", path: "/" },
@@ -11,7 +11,7 @@ const footerLinks = [
 ];
 
 export default function Footer() {
-  const { personal, social } = config;
+  const { personal, social } = globalData;
 
   const socialLinks = [
     { name: "GitHub", icon: Github, href: social.github },

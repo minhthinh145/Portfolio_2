@@ -1,0 +1,13 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "folder": "dalat-trip",
+      "title": "Weekend Trip to Dalat",
+      "date": "2025-12-20",
+      "description": "Escaped the Saigon heat for a refreshing weekend in Dalat. The cool mountain air and beautiful landscapes were exactly what I needed.",
+      "featuredImage": "/images/life/travel/dalat-trip/featured.jpg",
+      "images": []
+    }
+  ]
+}

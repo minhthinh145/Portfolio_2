@@ -1,0 +1,74 @@
+{
+  "skills": [
+    {
+      "name": "Frontend",
+      "icon": "Monitor",
+      "items": [
+        { "name": "React", "color": "#61DAFB", "emoji": "⚛️" },
+        { "name": "Angular", "color": "#DD0031", "emoji": "🅰️" },
+        { "name": "Redux", "color": "#764ABC", "emoji": "🔄" },
+        { "name": "Tailwind CSS", "color": "#06B6D4", "emoji": "🎨" }
+      ]
+    },
+    {
+      "name": "Backend Frameworks",
+      "icon": "Server",
+      "items": [
+        { "name": "Java Spring Boot", "color": "#6DB33F", "emoji": "🍃", "highlight": true },
+        { "name": "ASP.NET Core", "color": "#512BD4", "emoji": "🟣", "highlight": true },
+        { "name": "Node.js", "color": "#339933", "emoji": "💚" },
+        { "name": "Python Django", "color": "#44B78B", "emoji": "🐍" },
+        { "name": "PHP Laravel", "color": "#FF2D20", "emoji": "🔺" }
+      ]
+    },
+    {
+      "name": "Databases",
+      "icon": "Database",
+      "items": [
+        { "name": "PostgreSQL", "color": "#4169E1", "emoji": "🐘" },
+        { "name": "SQL Server", "color": "#CC2927", "emoji": "🗄️" },
+        { "name": "MongoDB", "color": "#47A248", "emoji": "🍃" },
+        { "name": "Oracle", "color": "#F80000", "emoji": "🔴" },
+        { "name": "Neo4j", "color": "#008CC1", "emoji": "🔗" }
+      ]
+    },
+    {
+      "name": "Design",
+      "icon": "Palette",
+      "items": [
+        { "name": "Figma", "color": "#F24E1E", "emoji": "🎨" }
+      ]
+    },
+    {
+      "name": "Tools",
+      "icon": "Wrench",
+      "items": [
+        { "name": "Git", "color": "#F05032", "emoji": "📦" },
+        { "name": "Docker", "color": "#2496ED", "emoji": "🐳" },
+        { "name": "AWS", "color": "#FF9900", "emoji": "☁️" },
+        { "name": "CI/CD", "color": "#4CAF50", "emoji": "🔄" }
+      ]
+    }
+  ],
+  "experiences": [
+    {
+      "year": "Oct 2025 - Jan 2026",
+      "title": "Software Engineer Intern (Fullstack Developer)",
+      "company": "ETECHS - Software Solutions for Education",
+      "description": "Developed high-performance web interfaces using ReactJS integrated with Python (Django) backend. Built internal digital transformation tools, focusing on automation testing and developing Backend services for management systems."
+    }
+  ],
+  "education": [
+    {
+      "year": "July 2023 - Present",
+      "degree": "B.S. in Information Technology",
+      "school": "University of Education - HCMUE",
+      "schoolUrl": "https://hcmue.edu.vn/vi/",
+      "gpa": "3.2/4.0",
+      "achievements": [
+        "Academic Incentive Scholarship - Top 5 students (Semester 2, 2024–2025)",
+        "AEON 1% Scholarship for Academic & Extracurricular Excellence (2025-2027)"
+      ]
+    }
+  ]
+}

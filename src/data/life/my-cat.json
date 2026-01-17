@@ -1,0 +1,17 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "folder": "mochi-coding-buddy",
+      "title": "Meet Mèo Xù - My Fluffy Friend",
+      "date": "2026-01-10",
+      "description": "This is Mèo Xù, my beloved cat back in my hometown. He's being taken care of by my parents, and I only get to visit him when I go back home. Despite the distance, he's still my favorite fluffy companion.",
+      "featuredImage": "/images/life/my-cat/mochi-coding-buddy/featured.jpg",
+      "images": [
+        { "src": "/images/life/my-cat/mochi-coding-buddy/1.jpg", "caption": "Mèo Xù" },
+        { "src": "/images/life/my-cat/mochi-coding-buddy/2.jpg", "caption": "Mèo Xù" },
+        { "src": "/images/life/my-cat/mochi-coding-buddy/3.jpg", "caption": "Mèo Xù" }
+      ]
+    }
+  ]
+}

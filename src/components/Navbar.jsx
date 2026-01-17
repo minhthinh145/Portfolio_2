@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Github, Linkedin, Mail } from "lucide-react";
-import config from "../config.json";
+import globalData from "../data/global.json";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -15,7 +15,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const { personal, social } = config;
+  const { personal, social } = globalData;
 
   useEffect(() => {
     const handleScroll = () => {
