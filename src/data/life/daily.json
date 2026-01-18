@@ -8,6 +8,15 @@
       "description": "Wow, so this is my workspace - the place I spend every day with... a few thousand lines of code and a ton of coffee. Happy coding!",
       "featuredImage": "/images/life/daily/my-workspace/featured.webp",
       "images": []
+    },
+    {
+      "title": "Dự án ThinhPay và con đường học Java Spring Boot",
+      "date": "2026-01-18",
+      "description": "Ùm thì đây là 1 project được sinh ra để phục vụ công việc học Java Spring của tui... Java thì ye.. nó dính liền với các hệ thống banking nên tui đã nghĩ ra làm cái dự án này :)))\n\nDù sao thì nó đang tiến triển khá tốt, tui tận dụng Agent để code phần lớn, nhưng bản thân tôi cũng phải tự code chay một vài module quan trọng.. Ùm thì thời đại AI mà, cái gì nó cũng có AI support, mình k dùng thì mình sẽ bị thụt lùi về sau mất. \n\nDo có nền tảng từ ASP.NET, tui đúng như kiểu chỉ cần mapping kiến thức :)). Ví dụ nhá, Entity Framework(EF) là ORM bên ASP, v thì Java spring có gì? Tui đặt các câu hỏi tương tự như v với các kiến thức mà tôi đã biết. Và tất nhiên là nhờ vậy mà tui học rất nhanh, gần như chỉ mất vài ngày là tui đã lên kế hoạch triển khai Project.\n\nĐây là 1 dự án kết hợp giữa Hexagonal architechture, Domain Driven Design, CQRS(Command Query Responsibility Segregation). Tui ôm nhiều công nghệ khó v vì tui muốn 1 project chuẩn chỉ, để học bao quát các kiến thức.\n\nTất nhiên là để nhắm tới làm việc trong 1 công ty chuyên làm về các dự án Fintech r",
+      "folder": "thinhpay_1",
+      "featuredImage": "/images/life/daily/thinhpay_1/featured.webp",
+      "images": [],
+      "id": 2
     }
   ]
 }

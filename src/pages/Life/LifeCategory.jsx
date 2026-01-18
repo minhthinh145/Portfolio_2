@@ -251,7 +251,11 @@ export default function LifeCategory() {
                           </h3>
 
                           <p
-                            className={`text-sm text-text-muted dark:text-zinc-400 ${!expanded ? "line-clamp-2" : ""}`}
+                            className={`whitespace-pre-line leading-relaxed ${
+                              !expanded
+                                ? "text-sm text-text-muted dark:text-zinc-400 line-clamp-2"
+                                : "text-base md:text-lg text-primary/80 dark:text-zinc-300"
+                            }`}
                           >
                             {post.description}
                           </p>
