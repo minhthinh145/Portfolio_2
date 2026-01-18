@@ -17,6 +17,15 @@
       "featuredImage": "/images/life/daily/thinhpay_1/featured.webp",
       "images": [],
       "id": 2
+    },
+    {
+      "title": "Vibe code 1 chút với project.. và việc mất ngủ?",
+      "date": "2026-01-18",
+      "description": "Chắc ta sẽ bắt đầu bằng việc.. mất ngủ\n\nBữa h tui khá là lạ đời về việc sức khỏe, tầm cỡ 9h30 or 10h là tui bắt đầu đi ngủ r, nhma k hiểu sao chỉ ngủ mơ màng dc 1 tiếng r sau đó tui lại dậy. Thay vì phí thời gian nằm lăn qua lăn lại, tui ngồi code..\n\nĐêm nay tui vibe code 1 ít module Payment Hub, chủ yếu là ngồi xàm với AI để tạo database r dùng JPA buddy scaffold các entity xuống.\n\nCứ đà này thì chắc tầm nửa tháng nữa sẽ xong nhỉ.. mong là rush trong 1 tuần để còn refactor lại 1 project :))\n\nHôm nay tui hết request của cả 2 acc github copilot student(đừng hỏi tại sao tui lại có 2 acc :)), 1 tài khoản student tui mượn của bạn để xài). Nên tui qua Antigravity, cơ mà anh em dòng họ của VS Code support Java chán quá, tui phải ngồi fix 1 hồi nó mới nhận dc các dependencies. Nhưng ít ra nó work r, dùng Antigravity code và xài AI. Còn debug hay test thì dùng IntelliJ là hợp lý",
+      "folder": "thinhpay_2",
+      "featuredImage": "/images/life/daily/thinhpay_2/featured.webp",
+      "images": [],
+      "id": 3
     }
   ]
 }
