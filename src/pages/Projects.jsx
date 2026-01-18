@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { ExternalLink, Github, Folder } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ExternalLink, Github, Folder, ArrowRight } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import { TECH_STACK } from "../data/techStack";
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -19,7 +21,6 @@ export default function Projects() {
         console.error("Error fetching projects:", error);
       } else {
         setProjects(data || []);
-        // Extract unique categories
         const cats = [
           "All",
           ...new Set(data.map((p) => p.category).filter(Boolean)),
@@ -83,7 +84,7 @@ export default function Projects() {
           {filteredProjects.map((project, index) => (
             <article
               key={project.id}
-              className="group bg-surface dark:bg-zinc-900 rounded-2xl overflow-hidden border border-border dark:border-zinc-800 hover:border-accent transition-all duration-300 hover:shadow-2xl hover:shadow-accent/10 cursor-pointer"
+              className="group bg-surface dark:bg-zinc-900 rounded-2xl overflow-hidden border border-border dark:border-zinc-800 hover:border-accent transition-all duration-300 hover:shadow-2xl hover:shadow-accent/10"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Image */}
@@ -94,7 +95,7 @@ export default function Projects() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-linear-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
                   <div className="flex gap-3">
                     {project.live_url && (
                       <a
@@ -103,6 +104,7 @@ export default function Projects() {
                         rel="noopener noreferrer"
                         className="p-3 bg-white text-primary rounded-full hover:bg-accent hover:text-white transition-colors cursor-pointer"
                         aria-label="View live"
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <ExternalLink size={20} />
                       </a>
@@ -114,22 +116,30 @@ export default function Projects() {
                         rel="noopener noreferrer"
                         className="p-3 bg-white text-primary rounded-full hover:bg-accent hover:text-white transition-colors cursor-pointer"
                         aria-label="View source"
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <Github size={20} />
                       </a>
                     )}
+                    <Link
+                      to={`/projects/${project.id}`}
+                      className="p-3 bg-accent text-white rounded-full hover:bg-accent/80 transition-colors cursor-pointer"
+                      aria-label="View details"
+                    >
+                      <ArrowRight size={20} />
+                    </Link>
                   </div>
                 </div>
                 {/* Featured badge */}
                 {project.featured && (
                   <span className="absolute top-4 right-4 px-3 py-1 bg-accent text-white text-xs font-semibold rounded-full">
-                    Featured
+                    ⭐ Featured
                   </span>
                 )}
               </div>
 
               {/* Content */}
-              <div className="p-6">
+              <Link to={`/projects/${project.id}`} className="block p-6">
                 <div className="flex items-center gap-2 text-accent mb-2">
                   <Folder size={16} />
                   <span className="text-sm font-medium">
@@ -139,20 +149,47 @@ export default function Projects() {
                 <h3 className="text-xl font-semibold font-heading mb-2 group-hover:text-accent transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-text-muted dark:text-zinc-400 text-sm mb-4">
+                <p className="text-text-muted dark:text-zinc-400 text-sm mb-4 line-clamp-2">
                   {project.description}
                 </p>
+
+                {/* Tech Stack with Logos */}
                 <div className="flex flex-wrap gap-2">
-                  {(project.tech || []).map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3 py-1 bg-accent/10 text-accent text-xs font-medium rounded-full"
-                    >
-                      {tech}
+                  {(project.tech || []).slice(0, 5).map((techId) => {
+                    const tech = TECH_STACK.find(
+                      (t) => t.id === techId || t.name === techId,
+                    );
+                    return tech ? (
+                      <div
+                        key={techId}
+                        className="flex items-center gap-1.5 px-2 py-1 bg-accent/10 rounded-full"
+                        title={tech.name}
+                      >
+                        <img
+                          src={tech.logo}
+                          alt={tech.name}
+                          className="w-4 h-4"
+                        />
+                        <span className="text-xs font-medium text-accent">
+                          {tech.name}
+                        </span>
+                      </div>
+                    ) : (
+                      <span
+                        key={techId}
+                        className="px-3 py-1 bg-accent/10 text-accent text-xs font-medium rounded-full"
+                      >
+                        {techId}
+                      </span>
+                    );
+                  })}
+                  {(project.tech || []).length > 5 && (
+                    <span className="px-2 py-1 bg-accent/10 text-accent text-xs rounded-full">
+                      +{project.tech.length - 5}
                     </span>
-                  ))}
+                  )}
                 </div>
-              </div>
+              </Link>
             </article>
           ))}
         </div>

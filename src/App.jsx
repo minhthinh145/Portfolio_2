@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 // Lazy load pages for code splitting
 const Home = lazy(() => import("./pages/Home"));
 const Projects = lazy(() => import("./pages/Projects"));
+const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const LifeMain = lazy(() => import("./pages/Life/LifeMain"));
 const LifeCategory = lazy(() => import("./pages/Life/LifeCategory"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="projects" element={<Projects />} />
+            <Route path="projects/:id" element={<ProjectDetail />} />
             <Route path="life" element={<LifeMain />} />
             <Route path="life/:category" element={<LifeCategory />} />
             <Route path="contact" element={<Contact />} />
