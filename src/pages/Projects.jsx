@@ -1,24 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ExternalLink, Github, Folder } from "lucide-react";
-import projectsData from "../data/projects.json";
-
-const categories = [
-  "All",
-  "Fintech",
-  "Education",
-  "Business",
-  "E-Commerce",
-  "Research",
-];
+import { supabase } from "../lib/supabase";
 
 export default function Projects() {
+  const [projects, setProjects] = useState([]);
+  const [categories, setCategories] = useState(["All"]);
   const [activeCategory, setActiveCategory] = useState("All");
-  const { projects } = projectsData;
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProjects() {
+      const { data, error } = await supabase
+        .from("projects")
+        .select("*")
+        .order("sort_order");
+
+      if (error) {
+        console.error("Error fetching projects:", error);
+      } else {
+        setProjects(data || []);
+        // Extract unique categories
+        const cats = [
+          "All",
+          ...new Set(data.map((p) => p.category).filter(Boolean)),
+        ];
+        setCategories(cats);
+      }
+      setLoading(false);
+    }
+    fetchProjects();
+  }, []);
 
   const filteredProjects =
     activeCategory === "All"
       ? projects
       : projects.filter((p) => p.category === activeCategory);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin" />
+          <p className="text-text-muted dark:text-zinc-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen py-12">
@@ -69,24 +96,28 @@ export default function Projects() {
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-linear-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
                   <div className="flex gap-3">
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 bg-white text-primary rounded-full hover:bg-accent hover:text-white transition-colors cursor-pointer"
-                      aria-label="View live"
-                    >
-                      <ExternalLink size={20} />
-                    </a>
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 bg-white text-primary rounded-full hover:bg-accent hover:text-white transition-colors cursor-pointer"
-                      aria-label="View source"
-                    >
-                      <Github size={20} />
-                    </a>
+                    {project.live_url && (
+                      <a
+                        href={project.live_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-white text-primary rounded-full hover:bg-accent hover:text-white transition-colors cursor-pointer"
+                        aria-label="View live"
+                      >
+                        <ExternalLink size={20} />
+                      </a>
+                    )}
+                    {project.github_url && (
+                      <a
+                        href={project.github_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-white text-primary rounded-full hover:bg-accent hover:text-white transition-colors cursor-pointer"
+                        aria-label="View source"
+                      >
+                        <Github size={20} />
+                      </a>
+                    )}
                   </div>
                 </div>
                 {/* Featured badge */}
@@ -112,7 +143,7 @@ export default function Projects() {
                   {project.description}
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {project.tech.map((tech) => (
+                  {(project.tech || []).map((tech) => (
                     <span
                       key={tech}
                       className="px-3 py-1 bg-accent/10 text-accent text-xs font-medium rounded-full"
