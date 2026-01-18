@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
+import { useParams, Link } from "react-router-dom";
 import {
-  LayoutGrid,
   Cat,
   GraduationCap,
   Clock,
@@ -12,30 +12,36 @@ import {
   ChevronLeft,
   ChevronRight,
   ArrowUpDown,
+  ArrowLeft,
 } from "lucide-react";
-import globalData from "../data/global.json";
-import lifeConfig from "../data/life/index.json";
-import myCatPosts from "../data/life/my-cat.json";
-import hcmuePosts from "../data/life/hcmue.json";
-import dailyPosts from "../data/life/daily.json";
-import travelPosts from "../data/life/travel.json";
+import lifeConfig from "../../data/life/index.json";
+import myCatPosts from "../../data/life/my-cat.json";
+import hcmuePosts from "../../data/life/hcmue.json";
+import dailyPosts from "../../data/life/daily.json";
+import travelPosts from "../../data/life/travel.json";
 
 const iconMap = {
-  LayoutGrid,
   Cat,
   GraduationCap,
   Clock,
   Plane,
 };
 
-// LazyImage component with loading skeleton
+// Posts data by category
+const postsData = {
+  "my-cat": myCatPosts.posts.map((p) => ({ ...p, category: "my-cat" })),
+  hcmue: hcmuePosts.posts.map((p) => ({ ...p, category: "hcmue" })),
+  daily: dailyPosts.posts.map((p) => ({ ...p, category: "daily" })),
+  travel: travelPosts.posts.map((p) => ({ ...p, category: "travel" })),
+};
+
+// Lazy image component
 function LazyImage({ src, alt, className, onClick }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   return (
     <div className="relative w-full h-full" onClick={onClick}>
-      {/* Skeleton loader */}
       {!isLoaded && !hasError && (
         <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-700 animate-pulse rounded-xl" />
       )}
@@ -52,19 +58,10 @@ function LazyImage({ src, alt, className, onClick }) {
   );
 }
 
-// Merge all posts with their category
-const allPosts = [
-  ...myCatPosts.posts.map((p) => ({ ...p, category: "my-cat" })),
-  ...hcmuePosts.posts.map((p) => ({ ...p, category: "hcmue" })),
-  ...dailyPosts.posts.map((p) => ({ ...p, category: "daily" })),
-  ...travelPosts.posts.map((p) => ({ ...p, category: "travel" })),
-];
+export default function LifeCategory() {
+  const { category } = useParams();
+  const { categories } = lifeConfig;
 
-export default function PersonalLife() {
-  const { personal } = globalData;
-  const { hero, categories } = lifeConfig;
-
-  const [activeCategory, setActiveCategory] = useState("all");
   const [expandedPosts, setExpandedPosts] = useState(new Set());
   const [sortOrder, setSortOrder] = useState("desc");
   const [lightbox, setLightbox] = useState({
@@ -73,33 +70,29 @@ export default function PersonalLife() {
     currentIndex: 0,
   });
 
-  // Filter and sort posts
-  const filteredPosts = useMemo(() => {
-    let filtered =
-      activeCategory === "all"
-        ? allPosts
-        : allPosts.filter((post) => post.category === activeCategory);
+  // Get category info
+  const categoryInfo = categories.find((c) => c.id === category);
+  const posts = postsData[category] || [];
+  const CategoryIcon = categoryInfo ? iconMap[categoryInfo.icon] : null;
 
-    return filtered.sort((a, b) => {
+  // Sort posts
+  const sortedPosts = useMemo(() => {
+    return [...posts].sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
     });
-  }, [activeCategory, sortOrder]);
+  }, [posts, sortOrder]);
 
-  const toggleExpand = (postId, category) => {
-    const key = `${category}-${postId}`;
+  const toggleExpand = (postId) => {
     const newExpanded = new Set(expandedPosts);
-    if (newExpanded.has(key)) {
-      newExpanded.delete(key);
+    if (newExpanded.has(postId)) {
+      newExpanded.delete(postId);
     } else {
-      newExpanded.add(key);
+      newExpanded.add(postId);
     }
     setExpandedPosts(newExpanded);
   };
-
-  const isExpanded = (postId, category) =>
-    expandedPosts.has(`${category}-${postId}`);
 
   const openLightbox = (images, index) => {
     setLightbox({ isOpen: true, images, currentIndex: index });
@@ -127,97 +120,77 @@ export default function PersonalLife() {
     });
   };
 
-  const getCategoryInfo = (categoryId) => {
-    return categories.find((c) => c.id === categoryId) || categories[0];
-  };
-
-  // Get active category banner info
-  const activeCategoryInfo = getCategoryInfo(activeCategory);
-  const showCategoryBanner =
-    activeCategory !== "all" && activeCategoryInfo.banner;
+  // 404 if category not found
+  if (!categoryInfo) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-primary dark:text-white mb-4">
+            Category Not Found
+          </h1>
+          <Link to="/life" className="text-accent hover:underline">
+            ← Back to Life
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
-      {/* Hero / Banner Section */}
-      {showCategoryBanner ? (
-        // Category-specific Banner
-        <section className="relative h-80 md:h-[28rem] overflow-hidden">
-          <img
-            src={activeCategoryInfo.banner.image}
-            alt={activeCategoryInfo.banner.title}
-            className="w-full h-full object-contain bg-zinc-900 rounded-2xl"
-            loading="eager"
-            decoding="async"
-            onError={(e) => {
-              e.target.src =
-                "https://images.unsplash.com/photo-1557683316-973673baf926?w=1600&h=600&fit=crop";
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-8">
-            <div className="container mx-auto">
-              <h1 className="text-3xl md:text-4xl font-bold font-heading text-white mb-2">
-                {activeCategoryInfo.banner.title}
-              </h1>
-              <p className="text-lg text-white/80">
-                {activeCategoryInfo.banner.subtitle}
-              </p>
-            </div>
-          </div>
-        </section>
-      ) : (
-        // Default "My Life" Hero
-        <section className="py-16 bg-surface dark:bg-zinc-900">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center animate-fade-in-up">
-              <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden ring-4 ring-accent ring-offset-4 ring-offset-background dark:ring-offset-zinc-900">
-                <img
-                  src={hero.profileImage}
-                  alt={personal.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.src =
-                      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop";
-                  }}
-                />
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold font-heading mb-3">
-                {hero.title}
-              </h1>
-              <p className="text-lg text-text-muted dark:text-zinc-400">
-                {hero.subtitle}
-              </p>
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Banner Section */}
+      <section className="relative h-72 md:h-96 overflow-hidden">
+        <img
+          src={categoryInfo.banner?.image || "/images/placeholder.jpg"}
+          alt={categoryInfo.name}
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            e.target.src =
+              "https://images.unsplash.com/photo-1557683316-973673baf926?w=1600&h=600&fit=crop";
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-      {/* Category Filter & Controls */}
+        {/* Back Button */}
+        <Link
+          to="/life"
+          className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-full hover:bg-white/30 transition-all cursor-pointer"
+        >
+          <ArrowLeft size={18} />
+          Back
+        </Link>
+
+        {/* Content */}
+        <div className="absolute bottom-0 left-0 right-0 p-8">
+          <div className="container mx-auto">
+            <div className="flex items-center gap-3 mb-2">
+              {CategoryIcon && (
+                <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg">
+                  <CategoryIcon size={24} className="text-white" />
+                </div>
+              )}
+              <span className="px-3 py-1 bg-accent text-white text-xs font-medium rounded-full">
+                {posts.length} {posts.length === 1 ? "post" : "posts"}
+              </span>
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold font-heading text-white mb-2">
+              {categoryInfo.name}
+            </h1>
+            <p className="text-lg text-white/80">
+              {categoryInfo.banner?.subtitle}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Sort Controls */}
       <section className="sticky top-20 z-40 py-4 bg-background/80 dark:bg-dark-background/80 backdrop-blur-lg border-b border-border dark:border-zinc-800">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            {/* Category Pills */}
-            <div className="flex flex-wrap gap-2">
-              {categories.map((category) => {
-                const IconComponent = iconMap[category.icon];
-                return (
-                  <button
-                    key={category.id}
-                    onClick={() => setActiveCategory(category.id)}
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
-                      activeCategory === category.id
-                        ? "bg-accent text-white shadow-lg shadow-accent/25"
-                        : "bg-surface dark:bg-zinc-800 text-text-muted dark:text-zinc-300 hover:bg-accent/10 hover:text-accent"
-                    }`}
-                  >
-                    {IconComponent && <IconComponent size={16} />}
-                    {category.name}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Sort Button */}
+          <div className="flex justify-between items-center max-w-3xl mx-auto">
+            <p className="text-text-muted dark:text-zinc-400">
+              {sortedPosts.length}{" "}
+              {sortedPosts.length === 1 ? "story" : "stories"}
+            </p>
             <button
               onClick={() =>
                 setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
@@ -231,25 +204,23 @@ export default function PersonalLife() {
         </div>
       </section>
 
-      {/* Posts Timeline */}
+      {/* Posts List */}
       <section className="py-12">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto space-y-6">
-            {filteredPosts.length === 0 ? (
+            {sortedPosts.length === 0 ? (
               <div className="text-center py-16">
                 <p className="text-text-muted dark:text-zinc-500">
                   No posts in this category yet.
                 </p>
               </div>
             ) : (
-              filteredPosts.map((post) => {
-                const expanded = isExpanded(post.id, post.category);
-                const categoryInfo = getCategoryInfo(post.category);
-                const CategoryIcon = iconMap[categoryInfo.icon];
+              sortedPosts.map((post) => {
+                const expanded = expandedPosts.has(post.id);
 
                 return (
                   <article
-                    key={`${post.category}-${post.id}`}
+                    key={post.id}
                     className="bg-surface dark:bg-zinc-900 rounded-2xl border border-border dark:border-zinc-800 overflow-hidden transition-all hover:shadow-lg"
                   >
                     {/* Post Header */}
@@ -270,18 +241,12 @@ export default function PersonalLife() {
 
                         {/* Post Info */}
                         <div className="flex-1 min-w-0">
-                          <div className="flex flex-wrap items-center gap-3 mb-2">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-accent/10 text-accent text-xs font-medium rounded-full">
-                              {CategoryIcon && <CategoryIcon size={12} />}
-                              {categoryInfo.name}
-                            </span>
-                            <span className="text-xs text-text-muted dark:text-zinc-500 flex items-center gap-1">
-                              <Calendar size={12} />
-                              {formatDate(post.date)}
-                            </span>
-                          </div>
+                          <span className="text-xs text-text-muted dark:text-zinc-500 flex items-center gap-1 mb-2">
+                            <Calendar size={12} />
+                            {formatDate(post.date)}
+                          </span>
 
-                          <h3 className="text-lg md:text-xl font-semibold font-heading mb-2 line-clamp-2">
+                          <h3 className="text-lg md:text-xl font-semibold font-heading mb-2 line-clamp-2 text-primary dark:text-white">
                             {post.title}
                           </h3>
 
@@ -295,7 +260,7 @@ export default function PersonalLife() {
 
                       {/* Expand Button */}
                       <button
-                        onClick={() => toggleExpand(post.id, post.category)}
+                        onClick={() => toggleExpand(post.id)}
                         className="mt-4 w-full flex items-center justify-center gap-2 py-2 text-sm text-accent hover:bg-accent/10 rounded-lg transition-colors cursor-pointer"
                       >
                         {expanded ? (

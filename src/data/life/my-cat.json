@@ -8,9 +8,18 @@
       "description": "This is Mèo Xù, my beloved cat back in my hometown. He's being taken care of by my parents, and I only get to visit him when I go back home. Despite the distance, he's still my favorite fluffy companion.",
       "featuredImage": "/images/life/my-cat/mochi-coding-buddy/featured.webp",
       "images": [
-        { "src": "/images/life/my-cat/mochi-coding-buddy/1.webp", "caption": "Photo 1" },
-        { "src": "/images/life/my-cat/mochi-coding-buddy/2.webp", "caption": "Photo 2" },
-        { "src": "/images/life/my-cat/mochi-coding-buddy/3.webp", "caption": "Photo 3" }
+        {
+          "src": "/images/life/my-cat/mochi-coding-buddy/1.webp",
+          "caption": "Photo 1"
+        },
+        {
+          "src": "/images/life/my-cat/mochi-coding-buddy/2.webp",
+          "caption": "Photo 2"
+        },
+        {
+          "src": "/images/life/my-cat/mochi-coding-buddy/3.webp",
+          "caption": "Photo 3"
+        }
       ]
     }
   ]

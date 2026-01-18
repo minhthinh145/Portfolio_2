@@ -6,12 +6,6 @@
   },
   "categories": [
     { 
-      "id": "all", 
-      "name": "All", 
-      "icon": "LayoutGrid",
-      "banner": null
-    },
-    { 
       "id": "my-cat", 
       "name": "My Cat", 
       "icon": "Cat",

@@ -17,8 +17,14 @@
       "description": "A proud milestone! I traveled to Hanoi to receive the AEON 1% Scholarship, awarded for academic and extracurricular excellence. This scholarship recognizes the top 1% of students nationwide. The ceremony was an incredible experience and a reminder that hard work truly pays off.",
       "featuredImage": "/images/life/hcmue/aeon-scholarship/featured.webp",
       "images": [
-        { "src": "/images/life/hcmue/aeon-scholarship/1.webp", "caption": "Photo 1" },
-        { "src": "/images/life/hcmue/aeon-scholarship/2.webp", "caption": "Photo 2" }
+        {
+          "src": "/images/life/hcmue/aeon-scholarship/1.webp",
+          "caption": "Photo 1"
+        },
+        {
+          "src": "/images/life/hcmue/aeon-scholarship/2.webp",
+          "caption": "Photo 2"
+        }
       ]
     }
   ]

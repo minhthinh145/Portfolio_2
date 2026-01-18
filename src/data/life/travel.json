@@ -2,12 +2,29 @@
   "posts": [
     {
       "id": 1,
-      "folder": "dalat-trip",
-      "title": "Weekend Trip to Dalat",
-      "date": "2025-12-20",
-      "description": "Escaped the Saigon heat for a refreshing weekend in Dalat. The cool mountain air and beautiful landscapes were exactly what I needed.",
-      "featuredImage": "/images/life/travel/dalat-trip/featured.jpg",
-      "images": []
+      "folder": "hanoi-firsttime",
+      "title": "Lần đầu ra thủ đô Hà Nội",
+      "date": "2025-11-23",
+      "description": "Trộm vía sao tui được ăn học bổng AEON. Đợt này AEON họ tổ chức ngoài Hà Nội nên tui có dịp được ra thủ đô... 2 ngày(thật ra là không trọn 2 ngày nhưng mà lại có khá nhiều niềm vui)\n\nÙm thì Lăng bác, văn miếu quốc tử giám, và 1 vài nơi khác là những chỗ mà tui ghé qua ở Hà Nội. Đặc biệt tui còn gặp được 2 người bạn của mình từ cấp 2(qua 1 trò chs :v)\n\nChuyến đi này rất là happy, Mỗi tội tui chưa trải nghiệm được món gì ngon ở Hà Nội(kể cả phở)",
+      "featuredImage": "/images/life/travel/hanoi-firsttime/featured.webp",
+      "images": [
+        {
+          "src": "/images/life/travel/hanoi-firsttime/1.webp",
+          "caption": "Photo 1"
+        },
+        {
+          "src": "/images/life/travel/hanoi-firsttime/2.webp",
+          "caption": "Photo 2"
+        },
+        {
+          "src": "/images/life/travel/hanoi-firsttime/3.webp",
+          "caption": "Photo 3"
+        },
+        {
+          "src": "/images/life/travel/hanoi-firsttime/4.webp",
+          "caption": "Photo 4"
+        }
+      ]
     }
   ]
 }
