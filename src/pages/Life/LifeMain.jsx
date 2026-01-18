@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Cat,
@@ -11,11 +11,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import globalData from "../../data/global.json";
-import lifeConfig from "../../data/life/index.json";
-import myCatPosts from "../../data/life/my-cat.json";
-import hcmuePosts from "../../data/life/hcmue.json";
-import dailyPosts from "../../data/life/daily.json";
-import travelPosts from "../../data/life/travel.json";
+import { getCategories, supabase } from "../../lib/supabase";
 
 const iconMap = {
   Cat,
@@ -23,22 +19,6 @@ const iconMap = {
   Clock,
   Plane,
 };
-
-// Get post counts per category
-const postCounts = {
-  "my-cat": myCatPosts.posts.length,
-  hcmue: hcmuePosts.posts.length,
-  daily: dailyPosts.posts.length,
-  travel: travelPosts.posts.length,
-};
-
-// Get all posts for featured section
-const allPosts = [
-  ...myCatPosts.posts.map((p) => ({ ...p, category: "my-cat" })),
-  ...hcmuePosts.posts.map((p) => ({ ...p, category: "hcmue" })),
-  ...dailyPosts.posts.map((p) => ({ ...p, category: "daily" })),
-  ...travelPosts.posts.map((p) => ({ ...p, category: "travel" })),
-].sort((a, b) => new Date(b.date) - new Date(a.date));
 
 // Lazy image component
 function LazyImage({ src, alt, className }) {
@@ -62,10 +42,33 @@ function LazyImage({ src, alt, className }) {
 
 export default function LifeMain() {
   const { personal } = globalData;
-  const { hero, categories } = lifeConfig;
+  const [categories, setCategories] = useState([]);
+  const [allPosts, setAllPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Filter out "all" category
-  const categoryCards = categories.filter((c) => c.id !== "all");
+  useEffect(() => {
+    async function loadData() {
+      try {
+        // Fetch categories
+        const cats = await getCategories();
+        setCategories(cats);
+
+        // Fetch all posts for featured section
+        const { data: posts } = await supabase
+          .from("posts")
+          .select("*")
+          .order("date", { ascending: false })
+          .limit(3);
+
+        setAllPosts(posts || []);
+      } catch (error) {
+        console.error("Error loading data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
@@ -80,6 +83,17 @@ export default function LifeMain() {
     return categories.find((c) => c.id === categoryId);
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin" />
+          <p className="text-text-muted dark:text-zinc-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -88,7 +102,7 @@ export default function LifeMain() {
           <div className="max-w-4xl mx-auto text-center animate-fade-in-up">
             <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden ring-4 ring-accent ring-offset-4 ring-offset-background dark:ring-offset-zinc-900">
               <img
-                src={hero.profileImage}
+                src="/images/profile-life.jpg"
                 alt={personal.name}
                 className="w-full h-full object-cover"
                 onError={(e) => {
@@ -98,10 +112,10 @@ export default function LifeMain() {
               />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold font-heading mb-3 text-primary dark:text-white">
-              {hero.title}
+              My Life
             </h1>
             <p className="text-lg text-text-muted dark:text-zinc-400">
-              {hero.subtitle}
+              Beyond the code - a glimpse into my world
             </p>
           </div>
         </div>
@@ -114,9 +128,8 @@ export default function LifeMain() {
             Explore Categories
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {categoryCards.map((category) => {
+            {categories.map((category) => {
               const IconComponent = iconMap[category.icon];
-              const count = postCounts[category.id] || 0;
 
               return (
                 <Link
@@ -127,7 +140,7 @@ export default function LifeMain() {
                   {/* Background Image */}
                   <div className="absolute inset-0">
                     <LazyImage
-                      src={category.banner?.image || "/images/placeholder.jpg"}
+                      src={category.banner_image || "/images/placeholder.jpg"}
                       alt={category.name}
                       className="w-full h-full object-cover"
                     />
@@ -145,14 +158,15 @@ export default function LifeMain() {
                         </div>
                       )}
                       <span className="px-3 py-1 bg-accent text-white text-xs font-medium rounded-full">
-                        {count} {count === 1 ? "post" : "posts"}
+                        {category.postCount || 0}{" "}
+                        {category.postCount === 1 ? "post" : "posts"}
                       </span>
                     </div>
                     <h3 className="text-2xl font-bold text-white mb-1">
                       {category.name}
                     </h3>
                     <p className="text-white/70 text-sm line-clamp-2">
-                      {category.banner?.subtitle || "Explore more"}
+                      {category.banner_subtitle || "Explore more"}
                     </p>
 
                     {/* Arrow indicator */}
@@ -168,80 +182,82 @@ export default function LifeMain() {
       </section>
 
       {/* Featured Posts */}
-      <section className="py-12 bg-surface dark:bg-zinc-900/50">
-        <div className="container mx-auto px-6">
-          <h2 className="text-2xl font-bold font-heading mb-8 text-center text-primary dark:text-white">
-            Recent Stories
-          </h2>
-          <div className="max-w-2xl mx-auto space-y-6">
-            {allPosts.slice(0, 3).map((post) => {
-              const categoryInfo = getCategoryInfo(post.category);
-              const CategoryIcon = categoryInfo
-                ? iconMap[categoryInfo.icon]
-                : null;
+      {allPosts.length > 0 && (
+        <section className="py-12 bg-surface dark:bg-zinc-900/50">
+          <div className="container mx-auto px-6">
+            <h2 className="text-2xl font-bold font-heading mb-8 text-center text-primary dark:text-white">
+              Recent Stories
+            </h2>
+            <div className="max-w-2xl mx-auto space-y-6">
+              {allPosts.map((post) => {
+                const categoryInfo = getCategoryInfo(post.category_id);
+                const CategoryIcon = categoryInfo
+                  ? iconMap[categoryInfo.icon]
+                  : null;
 
-              return (
-                <article
-                  key={`${post.category}-${post.id}`}
-                  className="bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
-                >
-                  {/* Post Header */}
-                  <div className="p-4 flex items-center gap-3 border-b border-border dark:border-zinc-700">
-                    <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                      {CategoryIcon && (
-                        <CategoryIcon size={20} className="text-accent" />
-                      )}
+                return (
+                  <article
+                    key={post.id}
+                    className="bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                  >
+                    {/* Post Header */}
+                    <div className="p-4 flex items-center gap-3 border-b border-border dark:border-zinc-700">
+                      <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                        {CategoryIcon && (
+                          <CategoryIcon size={20} className="text-accent" />
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <Link
+                          to={`/life/${post.category_id}`}
+                          className="font-semibold text-primary dark:text-white hover:text-accent transition-colors"
+                        >
+                          {categoryInfo?.name}
+                        </Link>
+                        <p className="text-xs text-text-muted dark:text-zinc-400 flex items-center gap-1">
+                          <Calendar size={12} />
+                          {formatDate(post.date)}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <Link
-                        to={`/life/${post.category}`}
-                        className="font-semibold text-primary dark:text-white hover:text-accent transition-colors"
-                      >
-                        {categoryInfo?.name}
-                      </Link>
-                      <p className="text-xs text-text-muted dark:text-zinc-400 flex items-center gap-1">
-                        <Calendar size={12} />
-                        {formatDate(post.date)}
+
+                    {/* Post Image */}
+                    <div className="aspect-video">
+                      <LazyImage
+                        src={post.featured_image}
+                        alt={post.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    {/* Post Content */}
+                    <div className="p-4">
+                      <h3 className="text-lg font-bold text-primary dark:text-white mb-2">
+                        {post.title}
+                      </h3>
+                      <p className="text-text-muted dark:text-zinc-400 text-sm line-clamp-2">
+                        {post.description}
                       </p>
+
+                      {/* Actions */}
+                      <div className="mt-4 flex items-center gap-4 text-text-muted dark:text-zinc-500">
+                        <button className="flex items-center gap-1.5 hover:text-accent transition-colors cursor-pointer">
+                          <Heart size={18} />
+                          <span className="text-sm">Like</span>
+                        </button>
+                        <button className="flex items-center gap-1.5 hover:text-accent transition-colors cursor-pointer">
+                          <MessageCircle size={18} />
+                          <span className="text-sm">Comment</span>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Post Image */}
-                  <div className="aspect-video">
-                    <LazyImage
-                      src={post.featuredImage}
-                      alt={post.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  {/* Post Content */}
-                  <div className="p-4">
-                    <h3 className="text-lg font-bold text-primary dark:text-white mb-2">
-                      {post.title}
-                    </h3>
-                    <p className="text-text-muted dark:text-zinc-400 text-sm line-clamp-2">
-                      {post.description}
-                    </p>
-
-                    {/* Actions */}
-                    <div className="mt-4 flex items-center gap-4 text-text-muted dark:text-zinc-500">
-                      <button className="flex items-center gap-1.5 hover:text-accent transition-colors cursor-pointer">
-                        <Heart size={18} />
-                        <span className="text-sm">Like</span>
-                      </button>
-                      <button className="flex items-center gap-1.5 hover:text-accent transition-colors cursor-pointer">
-                        <MessageCircle size={18} />
-                        <span className="text-sm">Comment</span>
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+                  </article>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 }

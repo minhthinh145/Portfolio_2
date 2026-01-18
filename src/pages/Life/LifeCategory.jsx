@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   Cat,
@@ -14,25 +14,13 @@ import {
   ArrowUpDown,
   ArrowLeft,
 } from "lucide-react";
-import lifeConfig from "../../data/life/index.json";
-import myCatPosts from "../../data/life/my-cat.json";
-import hcmuePosts from "../../data/life/hcmue.json";
-import dailyPosts from "../../data/life/daily.json";
-import travelPosts from "../../data/life/travel.json";
+import { getCategory, getPostsByCategory } from "../../lib/supabase";
 
 const iconMap = {
   Cat,
   GraduationCap,
   Clock,
   Plane,
-};
-
-// Posts data by category
-const postsData = {
-  "my-cat": myCatPosts.posts.map((p) => ({ ...p, category: "my-cat" })),
-  hcmue: hcmuePosts.posts.map((p) => ({ ...p, category: "hcmue" })),
-  daily: dailyPosts.posts.map((p) => ({ ...p, category: "daily" })),
-  travel: travelPosts.posts.map((p) => ({ ...p, category: "travel" })),
 };
 
 // Lazy image component
@@ -60,8 +48,9 @@ function LazyImage({ src, alt, className, onClick }) {
 
 export default function LifeCategory() {
   const { category } = useParams();
-  const { categories } = lifeConfig;
-
+  const [categoryInfo, setCategoryInfo] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [expandedPosts, setExpandedPosts] = useState(new Set());
   const [sortOrder, setSortOrder] = useState("desc");
   const [lightbox, setLightbox] = useState({
@@ -70,9 +59,24 @@ export default function LifeCategory() {
     currentIndex: 0,
   });
 
-  // Get category info
-  const categoryInfo = categories.find((c) => c.id === category);
-  const posts = postsData[category] || [];
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const [catData, postsData] = await Promise.all([
+          getCategory(category),
+          getPostsByCategory(category),
+        ]);
+        setCategoryInfo(catData);
+        setPosts(postsData);
+      } catch (error) {
+        console.error("Error loading data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, [category]);
+
   const CategoryIcon = categoryInfo ? iconMap[categoryInfo.icon] : null;
 
   // Sort posts
@@ -120,6 +124,17 @@ export default function LifeCategory() {
     });
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin" />
+          <p className="text-text-muted dark:text-zinc-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   // 404 if category not found
   if (!categoryInfo) {
     return (
@@ -141,7 +156,7 @@ export default function LifeCategory() {
       {/* Banner Section */}
       <section className="relative h-72 md:h-96 overflow-hidden">
         <img
-          src={categoryInfo.banner?.image || "/images/placeholder.jpg"}
+          src={categoryInfo.banner_image || "/images/placeholder.jpg"}
           alt={categoryInfo.name}
           className="w-full h-full object-cover"
           onError={(e) => {
@@ -177,7 +192,7 @@ export default function LifeCategory() {
               {categoryInfo.name}
             </h1>
             <p className="text-lg text-white/80">
-              {categoryInfo.banner?.subtitle}
+              {categoryInfo.banner_subtitle}
             </p>
           </div>
         </div>
@@ -229,11 +244,11 @@ export default function LifeCategory() {
                         {/* Featured Image */}
                         <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl overflow-hidden shrink-0 cursor-pointer">
                           <LazyImage
-                            src={post.featuredImage}
+                            src={post.featured_image}
                             alt={post.title}
                             className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                             onClick={() =>
-                              post.images.length > 0 &&
+                              post.images?.length > 0 &&
                               openLightbox(post.images, 0)
                             }
                           />
@@ -275,7 +290,7 @@ export default function LifeCategory() {
                         ) : (
                           <>
                             <ChevronDown size={16} />
-                            {post.images.length > 0
+                            {post.images?.length > 0
                               ? `Show More (${post.images.length} photos)`
                               : "Show More"}
                           </>
@@ -284,7 +299,7 @@ export default function LifeCategory() {
                     </div>
 
                     {/* Expanded Content */}
-                    {expanded && post.images.length > 0 && (
+                    {expanded && post.images?.length > 0 && (
                       <div className="px-6 pb-6 border-t border-border dark:border-zinc-800 pt-4">
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                           {post.images.map((img, index) => (
