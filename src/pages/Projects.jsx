@@ -5,7 +5,7 @@ import { supabase } from "../lib/supabase";
 import { TECH_STACK } from "../data/techStack";
 
 export default function Projects() {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProsejects] = useState([]);
   const [categories, setCategories] = useState(["All"]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [loading, setLoading] = useState(true);
