@@ -247,10 +247,17 @@ export default function LifeCategory() {
                             src={post.featured_image}
                             alt={post.title}
                             className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-                            onClick={() =>
-                              post.images?.length > 0 &&
-                              openLightbox(post.images, 0)
-                            }
+                            onClick={() => {
+                              // Include featured image as first, then gallery images
+                              const allImages = [
+                                {
+                                  src: post.featured_image,
+                                  caption: post.title,
+                                },
+                                ...(post.images || []),
+                              ];
+                              openLightbox(allImages, 0);
+                            }}
                           />
                         </div>
 
