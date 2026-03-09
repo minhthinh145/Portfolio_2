@@ -221,18 +221,44 @@ export default function Home() {
                 {/* Timeline dot */}
                 <div className="absolute left-0 top-0 w-4 h-4 -translate-x-1/2 bg-accent rounded-full ring-4 ring-background dark:ring-dark-background" />
 
-                <span className="text-sm text-accent font-medium">
-                  {exp.year}
-                </span>
-                <h3 className="text-xl font-semibold font-heading mt-1">
-                  {exp.title}
-                </h3>
-                <p className="text-text-muted dark:text-zinc-400 font-medium">
-                  {exp.company}
-                </p>
-                <p className="text-text-muted dark:text-zinc-500 mt-2">
-                  {exp.description}
-                </p>
+                <div className="bg-surface dark:bg-zinc-800/60 rounded-2xl border border-border dark:border-zinc-700 p-5 transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5">
+                  <div className="flex items-center gap-5">
+                    {/* Company Logo - chiều cao bằng cụm year + title + company */}
+                    {exp.logo ? (
+                      <div className="flex-shrink-0 w-[4.5rem] h-[4.5rem] rounded-xl bg-white shadow-md flex items-center justify-center p-2">
+                        <img
+                          src={exp.logo}
+                          alt={exp.company}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex-shrink-0 w-[4.5rem] h-[4.5rem] rounded-xl bg-gradient-to-br from-accent/20 to-accent/5 border border-accent/20 flex items-center justify-center">
+                        <span className="text-2xl font-bold text-accent">
+                          {exp.company.charAt(0)}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Header: year + title + company */}
+                    <div className="flex-1 min-w-0">
+                      <span className="text-sm text-accent font-medium">
+                        {exp.year}
+                      </span>
+                      <h3 className="text-xl font-semibold font-heading mt-0.5">
+                        {exp.title}
+                      </h3>
+                      <p className="text-base text-text-muted dark:text-zinc-300 font-semibold mt-0.5">
+                        {exp.company}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Description bên dưới */}
+                  <p className="text-text-muted dark:text-zinc-500 mt-4 text-sm leading-relaxed">
+                    {exp.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>

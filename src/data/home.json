@@ -55,12 +55,14 @@
       "year": "Apr 2026 - Present",
       "title": "Software Engineer Intern",
       "company": "BOSCH Global Software Vietnam (BGSV)",
+      "logo": "/images/bosch-logo.png",
       "description": "Started as a full‑time software engineer at Bosch Global Software Vietnam; onboarding in early April 2026. Working on enterprise‑grade applications with a focus on high quality and collaboration."
     },
     {
       "year": "Oct 2025 - Jan 2026",
       "title": "Software Engineer Intern (Fullstack Developer)",
       "company": "ETECHS - Software Solutions for Education",
+      "logo": "",
       "description": "Developed high-performance web interfaces using ReactJS integrated with Python (Django) backend. Built internal digital transformation tools, focusing on automation testing and developing Backend services for management systems."
     }
   ],
