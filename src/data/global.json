@@ -2,11 +2,11 @@
   "personal": {
     "name": "Thinh",
     "title": "Full Stack Developer",
-    "tagline": "A passionate developer crafting beautiful digital experiences with modern technologies.",
+    "tagline": "Software Engineer at Bosch Global Software Vietnam (BGSV), focused on building high-quality, scalable web applications.",
     "email": "minhthinh.221005@gmail.com",
     "phone": "+84 98 4250 431",
     "location": "Ho Chi Minh City, Vietnam",
-    "available": true,
+    "available": false,
     "availableText": "I'm open for freelance projects and full-time opportunities. Let's create something amazing together!"
   },
   "social": {
