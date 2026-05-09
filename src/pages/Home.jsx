@@ -248,11 +248,11 @@ export default function Home() {
                   <div className="flex items-center gap-5">
                     {/* Company Logo - chiều cao bằng cụm year + title + company */}
                     {exp.logo ? (
-                      <div className="shrink-0 w-18 h-18 rounded-xl bg-white shadow-md flex items-center justify-center p-2">
+                      <div className="shrink-0 w-18 h-18 rounded-xl bg-zinc-900 border border-white/10 shadow-md flex items-center justify-center p-3">
                         <img
                           src={exp.logo}
                           alt={exp.company}
-                          className="w-full h-full object-contain"
+                          className="max-w-full max-h-full object-contain object-center"
                         />
                       </div>
                     ) : (

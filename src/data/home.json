@@ -52,12 +52,20 @@
   ],
   "experiences": [
     {
-      "year": "Apr 2026 - Present",
+      "year": "Jun 2026 - Present",
+      "title": "Software Engineer",
+      "company": "NAB Innovation Centre Vietnam",
+      "companyUrl": "https://www.nab.com.au/about-us/careers/nabvietnam",
+      "logo": "/images/nabvietnam_logo.jpg",
+      "description": "Preparing for onboarding in June 2026 at NAB Innovation Centre Vietnam, with a focus on enterprise‑grade engineering and collaborative delivery."
+    },
+    {
+      "year": "Mar 2026 - Jun 2026",
       "title": "Software Engineer Intern",
       "company": "BOSCH Global Software Vietnam (BGSV)",
       "companyUrl": "https://www.bosch.com.vn/",
       "logo": "/images/bosch-logo.png",
-      "description": "Started as a full‑time software engineer at Bosch Global Software Vietnam; onboarding in early April 2026. Working on enterprise‑grade applications with a focus on high quality and collaboration."
+      "description": "Worked as a software engineer intern at Bosch Global Software Vietnam, contributing to enterprise‑grade applications with a focus on quality and teamwork."
     },
     {
       "year": "Oct 2025 - Jan 2026",
