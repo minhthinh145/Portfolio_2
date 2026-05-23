@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ArrowDown,
   Download,
@@ -9,6 +10,7 @@ import {
   Wrench,
   ExternalLink,
   Briefcase,
+  ChevronRight,
 } from "lucide-react";
 import {
   SiReact,
@@ -60,51 +62,141 @@ const techLogoMap = {
   "CI/CD": SiGithubactions,
 };
 
-// ─── Brand config per company ──────────────────────────────────────────────
-// NAB  : logo nền đen sẵn → giữ nguyên, accent đỏ NAB
-// BOSCH: logo trắng trên nền đỏ đen, filter để đổi màu logo
+// ─────────────────────────────────────────────────────────────────────────────
+// BRAND CONFIG
+// Mỗi company có:
+//   logoBg        : background của ô logo
+//   accentFrom/To : màu gradient accent (timeline, strip, hover text...)
+//   lifeId        : id trong Supabase categories → dùng navigate("/life/:id")
+//   clickable     : có route trong Life section không?
+// ─────────────────────────────────────────────────────────────────────────────
 const BRAND = {
   "NAB Innovation Centre Vietnam": {
-    logoBg: "#050505",
-    logoBorderIdle: "rgba(228,32,32,0.18)",
-    logoBorderHover: "rgba(228,32,32,0.55)",
-    logoShadowHover: "0 0 28px rgba(228,32,32,0.55)",
-    accent: { from: "#E42020", to: "#FF4444" },
-    timelineColor: "#E42020",
-    imgFit: "object-cover",
-    imgPadding: "",           // fill full — no padding
-    imgFilter: "none",
-    imgFilterHover: "none",
+    // NAB: logo trắng/đỏ trên nền đen rất đậm
+    // gradient nền: đen sang #1a0000 để hơi hơi đỏ tối — khớp với đỏ NAB
+    logoBg: "linear-gradient(145deg, #0a0000 0%, #1a0000 100%)",
+    logoBorderIdle: "rgba(228,32,32,0.20)",
+    logoBorderHover: "rgba(228,32,32,0.70)",
+    logoShadowHover: "0 0 32px rgba(228,32,32,0.60), 0 0 8px rgba(228,32,32,0.30)",
+    accentFrom: "#E42020",
+    accentTo:   "#FF5555",
+    imgFit:     "object-cover",
+    imgPadding: "",
+    imgFilter:  "none",
+    imgFilterHover: "brightness(1.05) saturate(1.1)",
+    lifeId:    "nab",
+    clickable: true,
   },
+
   "BOSCH Global Software Vietnam (BGSV)": {
-    // trắng đen — logo Bosch có nền trắng sẵn, giữ nguyên đẹp hơn
-    logoBg: "#ffffff",
+    // BOSCH: logo nền trắng gốc (đỏ + xám)
+    // gradient nền: trắng sang nhạt xám nhẹ — chuẩn Bosch brand
+    // border + glow đỏ Bosch #EA0000
+    logoBg: "linear-gradient(145deg, #ffffff 0%, #f5f0f0 100%)",
     logoBorderIdle: "rgba(234,0,0,0.22)",
-    logoBorderHover: "rgba(234,0,0,0.65)",
-    logoShadowHover: "0 0 28px rgba(234,0,0,0.50), inset 0 0 10px rgba(234,0,0,0.08)",
-    accent: { from: "#EA0000", to: "#B00000" },
-    timelineColor: "#EA0000",
-    imgFit: "object-contain",
-    imgPadding: "p-2",
-    imgFilter: "none",
+    logoBorderHover: "rgba(234,0,0,0.72)",
+    logoShadowHover: "0 0 32px rgba(234,0,0,0.55), 0 0 10px rgba(234,0,0,0.28)",
+    accentFrom: "#EA0000",
+    accentTo:   "#C50000",
+    imgFit:     "object-contain",
+    imgPadding: "p-[10px]",
+    imgFilter:  "none",
     imgFilterHover: "none",
+    lifeId:    "bosch",
+    clickable: true,
   },
+
   default: {
-    logoBg: "linear-gradient(145deg,#111827,#1f2937)",
+    logoBg: "linear-gradient(145deg, #111827, #1f2937)",
     logoBorderIdle: "rgba(37,99,235,0.18)",
-    logoBorderHover: "rgba(37,99,235,0.5)",
+    logoBorderHover: "rgba(37,99,235,0.55)",
     logoShadowHover: "0 0 24px rgba(37,99,235,0.45)",
-    accent: { from: "#2563EB", to: "#7C3AED" },
-    timelineColor: "#2563EB",
-    imgFit: "object-contain",
+    accentFrom: "#2563EB",
+    accentTo:   "#7C3AED",
+    imgFit:     "object-contain",
     imgPadding: "p-2",
-    imgFilter: "none",
+    imgFilter:  "none",
     imgFilterHover: "none",
+    lifeId:    null,
+    clickable: false,
   },
 };
 
 function getBrand(name) {
   return BRAND[name] || BRAND.default;
+}
+
+// ─── 3D Page Transition Component ─────────────────────────────────────────
+function PageTransitionOverlay({ brand, logoSrc, companyName, onDone }) {
+  const [exiting, setExiting] = useState(false);
+
+  // After panel slides in → hold 600ms → exit → navigate
+  const handlePanelIn = useCallback(() => {
+    setTimeout(() => {
+      setExiting(true);
+    }, 520);
+  }, []);
+
+  const handlePanelOut = useCallback(() => {
+    onDone();
+  }, [onDone]);
+
+  return (
+    <div className="page-transition-overlay">
+      {/* Full-screen brand panel */}
+      <div
+        className={`page-transition-panel ${exiting ? "exit" : ""}`}
+        style={{
+          background: `linear-gradient(135deg, ${brand.accentFrom}ef 0%, ${brand.accentTo}d8 55%, #080808 100%)`,
+        }}
+        onAnimationEnd={exiting ? handlePanelOut : handlePanelIn}
+      />
+
+      {/* Center content: logo + label */}
+      <div className="page-transition-logo flex flex-col items-center gap-5 text-white select-none">
+        {/* Company logo */}
+        <div
+          className="w-24 h-24 rounded-2xl overflow-hidden flex items-center justify-center"
+          style={{
+            background: brand.logoBg,
+            border: `2px solid rgba(255,255,255,0.20)`,
+            boxShadow: `0 0 50px rgba(0,0,0,0.7), 0 0 28px ${brand.accentFrom}55`,
+          }}
+        >
+          {logoSrc ? (
+            <img
+              src={logoSrc}
+              alt={companyName}
+              className={`w-full h-full ${brand.imgFit} ${brand.imgPadding}`}
+              style={{ filter: brand.imgFilter }}
+            />
+          ) : (
+            <span className="text-3xl font-black text-white">
+              {companyName?.charAt(0)}
+            </span>
+          )}
+        </div>
+
+        <div className="text-center">
+          <p className="text-white/60 text-xs font-bold tracking-[0.2em] uppercase mb-1.5">
+            Taking you to
+          </p>
+          <p className="text-xl font-bold">{companyName}</p>
+        </div>
+
+        {/* Animated progress bar */}
+        <div className="w-28 h-[2px] bg-white/15 rounded-full overflow-hidden">
+          <div
+            className="h-full rounded-full"
+            style={{
+              background: `linear-gradient(90deg, ${brand.accentFrom}, ${brand.accentTo})`,
+              animation: "progressBar 0.9s cubic-bezier(0.4,0,0.2,1) forwards",
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // ─── useTilt hook ──────────────────────────────────────────────────────────
@@ -115,35 +207,41 @@ function useTilt() {
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
-    const rx = ((e.clientY - r.top) / r.height - 0.5) * -14;
+    const rx = ((e.clientY - r.top) / r.height - 0.5) * -12;
     const ry = ((e.clientX - r.left) / r.width - 0.5) * 14;
-    el.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.025,1.025,1.025)`;
+    el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02,1.02,1.02)`;
   };
 
   const handleMouseLeave = () => {
     if (ref.current)
       ref.current.style.transform =
-        "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)";
+        "perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)";
   };
 
   return { ref, handleMouseMove, handleMouseLeave };
 }
 
 // ─── ExperienceCard ────────────────────────────────────────────────────────
-function ExperienceCard({ exp, index }) {
+function ExperienceCard({ exp, index, onNavigate }) {
   const { ref, handleMouseMove, handleMouseLeave } = useTilt();
   const [hov, setHov] = useState(false);
   const b = getBrand(exp.company);
-  const { from, to } = b.accent;
+  const { accentFrom: from, accentTo: to } = b;
+
+  const handleClick = () => {
+    if (b.clickable && b.lifeId) {
+      onNavigate(b, b.lifeId, exp.logo, exp.company);
+    }
+  };
 
   return (
-    <div className="relative pl-10 pb-9 last:pb-0">
+    <div className="relative pl-10 pb-8 last:pb-0">
 
       {/* ── Timeline line ── */}
       <div
         className="absolute left-0 top-0 bottom-0 w-px"
         style={{
-          background: `linear-gradient(to bottom, ${b.timelineColor}90 0%, ${b.timelineColor}15 85%, transparent 100%)`,
+          background: `linear-gradient(to bottom, ${from}90 0%, ${from}15 85%, transparent 100%)`,
         }}
       />
 
@@ -154,8 +252,8 @@ function ExperienceCard({ exp, index }) {
           style={{
             background: `radial-gradient(circle at 35% 35%, ${to}, ${from})`,
             boxShadow: hov
-              ? `0 0 0 4px ${from}28, 0 0 18px ${from}70`
-              : `0 0 0 2px ${from}22, 0 0 8px ${from}50`,
+              ? `0 0 0 4px ${from}30, 0 0 20px ${from}70`
+              : `0 0 0 2px ${from}25, 0 0 10px ${from}55`,
           }}
         />
         <div
@@ -170,16 +268,18 @@ function ExperienceCard({ exp, index }) {
         onMouseMove={handleMouseMove}
         onMouseLeave={() => { handleMouseLeave(); setHov(false); }}
         onMouseEnter={() => setHov(true)}
-        className="relative overflow-hidden rounded-2xl cursor-default"
+        onClick={handleClick}
+        className="relative overflow-hidden rounded-2xl"
         style={{
           transition: "transform 0.12s ease, box-shadow 0.28s ease, border-color 0.28s ease",
-          border: `1px solid ${hov ? from + "50" : "rgba(120,120,150,0.13)"}`,
+          cursor: b.clickable ? "pointer" : "default",
+          border: `1px solid ${hov ? from + "55" : "rgba(120,120,150,0.13)"}`,
           boxShadow: hov
-            ? `0 24px 72px ${from}1A, 0 0 0 1px ${from}18, inset 0 1px 0 rgba(255,255,255,0.04)`
+            ? `0 24px 72px ${from}20, 0 0 0 1px ${from}18, inset 0 1px 0 rgba(255,255,255,0.04)`
             : "0 2px 16px rgba(0,0,0,0.07)",
         }}
       >
-        {/* card bg layer (safe dark/light) */}
+        {/* bg layer */}
         <div className="absolute inset-0 -z-10 bg-surface dark:bg-zinc-800/70 rounded-2xl" />
 
         {/* radial hover wash */}
@@ -196,7 +296,7 @@ function ExperienceCard({ exp, index }) {
           className="absolute top-0 left-0 right-0 h-[2px] z-20 transition-all duration-500"
           style={{
             background: hov
-              ? `linear-gradient(90deg, transparent 0%, ${from} 30%, ${to} 70%, transparent 100%)`
+              ? `linear-gradient(90deg, transparent, ${from}, ${to}, ${from}, transparent)`
               : `linear-gradient(90deg, ${from}55, ${to}28)`,
           }}
         />
@@ -207,7 +307,7 @@ function ExperienceCard({ exp, index }) {
           style={{
             background: `linear-gradient(to bottom, ${from}, ${to})`,
             opacity: hov ? 1 : 0.38,
-            boxShadow: hov ? `2px 0 10px ${from}50` : "none",
+            boxShadow: hov ? `3px 0 12px ${from}45` : "none",
           }}
         />
 
@@ -216,13 +316,13 @@ function ExperienceCard({ exp, index }) {
 
           {/* === LOGO BLOCK === */}
           <div className="shrink-0 flex flex-col items-center gap-2">
-            {/* Logo container — 76×76, brand-themed */}
+            {/* Logo box — brand-gradient bg */}
             <div
               className="w-[76px] h-[76px] rounded-xl overflow-hidden relative transition-all duration-300 flex items-center justify-center"
               style={{
                 background: b.logoBg,
                 border: `1.5px solid ${hov ? b.logoBorderHover : b.logoBorderIdle}`,
-                boxShadow: hov ? b.logoShadowHover : "0 3px 10px rgba(0,0,0,0.28)",
+                boxShadow: hov ? b.logoShadowHover : "0 3px 12px rgba(0,0,0,0.28)",
               }}
             >
               {exp.logo ? (
@@ -236,12 +336,12 @@ function ExperienceCard({ exp, index }) {
                       transform: hov ? "scale(1.06)" : "scale(1)",
                     }}
                   />
-                  {/* Inner glow */}
+                  {/* Inner brand glow */}
                   <div
                     className="absolute inset-0 pointer-events-none transition-opacity duration-300"
                     style={{
                       opacity: hov ? 1 : 0,
-                      background: `radial-gradient(circle at center, ${from}28, transparent 68%)`,
+                      background: `radial-gradient(circle at center, ${from}22, transparent 68%)`,
                     }}
                   />
                 </>
@@ -284,7 +384,7 @@ function ExperienceCard({ exp, index }) {
 
             {/* Role */}
             <h3
-              className="text-[17px] font-bold font-heading leading-tight mb-[3px] transition-colors duration-250"
+              className="text-[17px] font-bold font-heading leading-tight mb-[3px] transition-colors duration-200"
               style={{ color: hov ? from : undefined }}
             >
               {exp.title}
@@ -298,19 +398,13 @@ function ExperienceCard({ exp, index }) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-sm font-semibold mb-3 group/lnk"
                 style={{ color: `${from}bb` }}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => { e.stopPropagation(); }}
               >
                 {exp.company}
-                <ExternalLink
-                  size={10}
-                  className="opacity-0 group-hover/lnk:opacity-100 transition-opacity -translate-y-px"
-                />
+                <ExternalLink size={10} className="opacity-0 group-hover/lnk:opacity-100 transition-opacity" />
               </a>
             ) : (
-              <p
-                className="text-sm font-semibold mb-3"
-                style={{ color: `${from}85` }}
-              >
+              <p className="text-sm font-semibold mb-3" style={{ color: `${from}85` }}>
                 {exp.company}
               </p>
             )}
@@ -319,6 +413,20 @@ function ExperienceCard({ exp, index }) {
             <p className="text-[13px] leading-relaxed text-text-muted dark:text-zinc-400">
               {exp.description}
             </p>
+
+            {/* "View my journey" CTA — only for clickable cards */}
+            {b.clickable && (
+              <div
+                className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                style={{
+                  color: hov ? from : `${from}60`,
+                  transform: hov ? "translateX(4px)" : "translateX(0)",
+                }}
+              >
+                <ChevronRight size={13} />
+                View my journey
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -330,24 +438,49 @@ function ExperienceCard({ exp, index }) {
 export default function Home() {
   const { personal } = globalData;
   const { skills, experiences, education } = homeData;
+  const navigate = useNavigate();
+
+  // Transition state
+  const [transition, setTransition] = useState(null); // null | { brand, lifeId }
+
+  const handleNavigate = useCallback((brand, lifeId, logoSrc, companyName) => {
+    setTransition({ brand, lifeId, logoSrc, companyName });
+  }, []);
+
+  const handleTransitionDone = useCallback(() => {
+    if (!transition) return;
+    const { lifeId } = transition;
+    setTransition(null);
+    navigate(`/life/${lifeId}`);
+  }, [transition, navigate]);
 
   return (
     <div className="min-h-screen">
+
+      {/* 3D Transition Overlay */}
+      {transition && (
+        <PageTransitionOverlay
+          brand={transition.brand}
+          logoSrc={transition.logoSrc}
+          companyName={transition.companyName}
+          onDone={handleTransitionDone}
+        />
+      )}
 
       {/* ══ HERO ══════════════════════════════════════════════════════════ */}
       <section className="min-h-[calc(100vh-6rem)] flex items-center justify-center relative overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-br from-accent/5 via-transparent to-purple-500/5" />
 
         <div className="container mx-auto px-6 text-center relative z-10">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-heading mb-6 animate-fade-in-up delay-100">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-heading mb-6 animate-fade-in-up">
             Hi, I'm <span className="text-accent">{personal.name}</span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-text-muted dark:text-zinc-400 max-w-2xl mx-auto mb-8 animate-fade-in-up delay-200">
+          <p className="text-xl md:text-2xl text-text-muted dark:text-zinc-400 max-w-2xl mx-auto mb-8 animate-fade-in-up">
             {personal.tagline}
           </p>
 
-          <div className="max-w-3xl mx-auto mb-8 animate-fade-in-up delay-250">
+          <div className="max-w-3xl mx-auto mb-8 animate-fade-in-up">
             <div className="inline-flex flex-col gap-2 text-left px-4 py-3 rounded-xl bg-surface/80 dark:bg-zinc-800/70 border border-border dark:border-zinc-700">
               <p className="text-sm md:text-base text-text-muted dark:text-zinc-300">
                 I am a third-year Information Technology student at{" "}
@@ -366,7 +499,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-4 justify-center animate-fade-in-up delay-300">
+          <div className="flex flex-wrap gap-4 justify-center animate-fade-in-up">
             <a href="/contact"
               className="px-8 py-4 bg-accent hover:bg-accent-hover text-white font-semibold rounded-xl transition-all hover:scale-105 hover:shadow-lg hover:shadow-accent/25 cursor-pointer">
               Get in Touch
@@ -388,10 +521,9 @@ export default function Home() {
       <section className="py-24 bg-surface dark:bg-zinc-900 relative overflow-hidden">
         {/* dot grid bg */}
         <div
-          className="absolute inset-0 opacity-25 dark:opacity-10"
+          className="absolute inset-0 opacity-20 dark:opacity-10 pointer-events-none"
           style={{
-            backgroundImage:
-              "radial-gradient(circle, rgba(37,99,235,0.2) 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(circle, rgba(37,99,235,0.25) 1px, transparent 1px)",
             backgroundSize: "30px 30px",
           }}
         />
@@ -407,13 +539,18 @@ export default function Home() {
             </div>
             <h2 className="text-3xl md:text-4xl font-bold font-heading mb-3">Experience</h2>
             <p className="text-text-muted dark:text-zinc-400 max-w-xl mx-auto">
-              My professional journey so far — building real-world software that scales.
+              My professional journey so far — click a card to see life behind the work.
             </p>
           </div>
 
           <div className="max-w-3xl mx-auto">
             {experiences.map((exp, index) => (
-              <ExperienceCard key={index} exp={exp} index={index} />
+              <ExperienceCard
+                key={index}
+                exp={exp}
+                index={index}
+                onNavigate={handleNavigate}
+              />
             ))}
           </div>
         </div>
@@ -456,17 +593,12 @@ export default function Home() {
                         <span
                           key={item.name}
                           className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all hover:scale-105 cursor-default ${
-                            item.highlight
-                              ? "ring-2 ring-offset-2 ring-offset-background dark:ring-offset-zinc-800"
-                              : ""
+                            item.highlight ? "ring-2 ring-offset-2 ring-offset-background dark:ring-offset-zinc-800" : ""
                           }`}
                           style={{
                             backgroundColor: `${item.color}20`,
                             color: item.color,
-                            ...(item.highlight && {
-                              borderColor: item.color,
-                              boxShadow: `0 0 12px ${item.color}40`,
-                            }),
+                            ...(item.highlight && { boxShadow: `0 0 12px ${item.color}40` }),
                           }}
                         >
                           {TechLogo ? (
@@ -476,12 +608,8 @@ export default function Home() {
                           )}
                           {item.name}
                           {item.highlight && (
-                            <span
-                              className="text-xs px-1.5 py-0.5 rounded font-bold"
-                              style={{ backgroundColor: `${item.color}30` }}
-                            >
-                              ★
-                            </span>
+                            <span className="text-xs px-1.5 py-0.5 rounded font-bold"
+                              style={{ backgroundColor: `${item.color}30` }}>★</span>
                           )}
                         </span>
                       );
@@ -530,14 +658,12 @@ export default function Home() {
 
                 {edu.achievements && edu.achievements.length > 0 && (
                   <div className="mt-4 pt-4 border-t border-border dark:border-zinc-700">
-                    <p className="text-sm font-medium text-text-muted dark:text-zinc-400 mb-2">
-                      Achievements:
-                    </p>
+                    <p className="text-sm font-medium text-text-muted dark:text-zinc-400 mb-2">Achievements:</p>
                     <ul className="space-y-2">
-                      {edu.achievements.map((achievement, i) => (
+                      {edu.achievements.map((a, i) => (
                         <li key={i} className="flex items-start gap-2 text-sm">
                           <span className="text-accent mt-1">★</span>
-                          <span className="text-text-muted dark:text-zinc-300">{achievement}</span>
+                          <span className="text-text-muted dark:text-zinc-300">{a}</span>
                         </li>
                       ))}
                     </ul>

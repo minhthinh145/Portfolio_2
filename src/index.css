@@ -269,3 +269,48 @@ html {
     background: var(--color-dark-primary);
   }
 }
+
+/* ─── 3D Page Transition Overlay ────────────────────────────────────────── */
+@keyframes panelSlideIn {
+  0%   { clip-path: inset(0 100% 0 0); }
+  100% { clip-path: inset(0 0% 0 0); }
+}
+@keyframes panelSlideOut {
+  0%   { clip-path: inset(0 0% 0 0); }
+  100% { clip-path: inset(0 0 0 100%); }
+}
+@keyframes contentReveal {
+  0%   { opacity: 0; transform: translateY(30px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes progressBar {
+  0%   { width: 0%; }
+  100% { width: 100%; }
+}
+
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: all;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.page-transition-panel {
+  position: absolute;
+  inset: 0;
+  animation: panelSlideIn 0.5s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+.page-transition-panel.exit {
+  animation: panelSlideOut 0.45s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+.page-transition-logo {
+  position: relative;
+  z-index: 1;
+  animation: contentReveal 0.5s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
