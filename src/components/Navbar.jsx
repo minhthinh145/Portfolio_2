@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Github, Linkedin, Mail } from "lucide-react";
+import { Menu, X, Github, Linkedin, Mail, Moon, Sun } from "lucide-react";
 import globalData from "../data/global.json";
+import { applyTheme } from "../lib/theme.js";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -14,6 +15,9 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isDark, setIsDark] = useState(() =>
+    document.documentElement.classList.contains("dark")
+  );
   const location = useLocation();
   const { personal, social } = globalData;
 
@@ -24,6 +28,12 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const toggleTheme = () => {
+    const next = isDark ? "light" : "dark";
+    applyTheme(next);
+    setIsDark(!isDark);
+  };
 
   const isActive = (path) => location.pathname === path;
 
@@ -65,8 +75,8 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Social Links - Desktop */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* Social Links + Theme Toggle - Desktop */}
+          <div className="hidden md:flex items-center gap-2">
             <a
               href={social.github}
               target="_blank"
@@ -92,16 +102,59 @@ export default function Navbar() {
             >
               <Mail size={20} />
             </a>
+
+            {/* Divider */}
+            <div className="w-px h-5 bg-border dark:bg-zinc-700 mx-1" />
+
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="w-10 h-10 relative flex items-center justify-center rounded-lg transition-all cursor-pointer hover:bg-accent/10 group"
+              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {/* Sun icon - shows when dark (click to go light) */}
+              <Sun
+                size={20}
+                className={`absolute text-amber-400 transition-all duration-300 ${
+                  isDark
+                    ? "opacity-100 rotate-0 scale-100"
+                    : "opacity-0 rotate-90 scale-50"
+                }`}
+              />
+              {/* Moon icon - shows when light (click to go dark) */}
+              <Moon
+                size={20}
+                className={`absolute text-secondary dark:text-zinc-300 group-hover:text-accent transition-all duration-300 ${
+                  isDark
+                    ? "opacity-0 -rotate-90 scale-50"
+                    : "opacity-100 rotate-0 scale-100"
+                }`}
+              />
+            </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-primary dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer"
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile right side: theme toggle + menu */}
+          <div className="md:hidden flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="p-2 text-primary dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer"
+              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {isDark ? (
+                <Sun size={20} className="text-amber-400" />
+              ) : (
+                <Moon size={20} />
+              )}
+            </button>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 text-primary dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors cursor-pointer"
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}

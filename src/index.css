@@ -3,6 +3,10 @@
 
 @import "tailwindcss";
 
+/* Override dark mode to use .dark class on html element instead of media query */
+@variant dark (&:where(.dark, .dark *));
+
+
 /* Theme CSS Variables */
 @theme {
   --font-heading: 'Archivo', system-ui, sans-serif;
@@ -52,17 +56,33 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-primary);
 }
 
-/* Dark Mode */
+/* Dark Mode - class-based (controlled by user toggle) */
+.dark body {
+  background-color: var(--color-dark-background);
+  color: var(--color-dark-text);
+}
+
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  color: var(--color-dark-primary);
+}
+
+/* Media query fallback if no class set */
 @media (prefers-color-scheme: dark) {
-  body {
+  body:not(.light-forced) {
     background-color: var(--color-dark-background);
     color: var(--color-dark-text);
   }
   
-  h1, h2, h3, h4, h5, h6 {
+  body:not(.light-forced) h1,
+  body:not(.light-forced) h2,
+  body:not(.light-forced) h3,
+  body:not(.light-forced) h4,
+  body:not(.light-forced) h5,
+  body:not(.light-forced) h6 {
     color: var(--color-dark-primary);
   }
 }
+
 
 /* Utility Classes */
 .container {
@@ -130,9 +150,66 @@ h1, h2, h3, h4, h5, h6 {
 /* Stagger animation delays */
 .delay-100 { animation-delay: 100ms; }
 .delay-200 { animation-delay: 200ms; }
+.delay-250 { animation-delay: 250ms; }
 .delay-300 { animation-delay: 300ms; }
 .delay-400 { animation-delay: 400ms; }
 .delay-500 { animation-delay: 500ms; }
+
+/* 3D perspective for experience cards */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Experience card 3D tilt on hover */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate3d(1, 1, 0, 0deg); }
+  50% { transform: translateY(-6px) rotate3d(1, 1, 0, 1deg); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Glassmorphism glow */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.1); }
+  50% { box-shadow: 0 0 40px rgba(37, 99, 235, 0.25); }
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Shine sweep animation */
+@keyframes shineSweep {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(300%) skewX(-15deg); }
+}
+
+.shine-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  transform: translateX(-100%) skewX(-15deg);
+}
+
+.shine-effect:hover::after {
+  animation: shineSweep 0.8s ease-out;
+}
+
+/* Theme toggle transition */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
