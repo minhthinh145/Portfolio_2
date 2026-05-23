@@ -158,7 +158,7 @@ export default function LifeCategory() {
         <img
           src={categoryInfo.banner_image || "/images/placeholder.jpg"}
           alt={categoryInfo.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover animate-banner-img"
           onError={(e) => {
             e.target.src =
               "https://images.unsplash.com/photo-1557683316-973673baf926?w=1600&h=600&fit=crop";
@@ -169,7 +169,7 @@ export default function LifeCategory() {
         {/* Back Button */}
         <Link
           to="/life"
-          className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-full hover:bg-white/30 transition-all cursor-pointer"
+          className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-full hover:bg-white/30 transition-all cursor-pointer animate-fade-in"
         >
           <ArrowLeft size={18} />
           Back
@@ -178,7 +178,7 @@ export default function LifeCategory() {
         {/* Content */}
         <div className="absolute bottom-0 left-0 right-0 p-8">
           <div className="container mx-auto">
-            <div className="flex items-center gap-3 mb-2">
+            <div className="flex items-center gap-3 mb-2 animate-fade-in delay-75">
               {CategoryIcon && (
                 <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg">
                   <CategoryIcon size={24} className="text-white" />
@@ -188,10 +188,10 @@ export default function LifeCategory() {
                 {posts.length} {posts.length === 1 ? "post" : "posts"}
               </span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold font-heading text-white mb-2">
+            <h1 className="text-3xl md:text-4xl font-bold font-heading text-white mb-2 animate-fade-in delay-150">
               {categoryInfo.name}
             </h1>
-            <p className="text-lg text-white/80">
+            <p className="text-lg text-white/80 animate-fade-in delay-200">
               {categoryInfo.banner_subtitle}
             </p>
           </div>
@@ -199,7 +199,7 @@ export default function LifeCategory() {
       </section>
 
       {/* Sort Controls */}
-      <section className="sticky top-20 z-40 py-4 bg-background/80 dark:bg-dark-background/80 backdrop-blur-lg border-b border-border dark:border-zinc-800">
+      <section className="sticky top-20 z-40 py-4 bg-background/80 dark:bg-dark-background/80 backdrop-blur-lg border-b border-border dark:border-zinc-800 animate-fade-in delay-300">
         <div className="container mx-auto px-6">
           <div className="flex justify-between items-center max-w-3xl mx-auto">
             <p className="text-text-muted dark:text-zinc-400">
@@ -224,19 +224,21 @@ export default function LifeCategory() {
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto space-y-6">
             {sortedPosts.length === 0 ? (
-              <div className="text-center py-16">
+              <div className="text-center py-16 animate-fade-in delay-300">
                 <p className="text-text-muted dark:text-zinc-500">
                   No posts in this category yet.
                 </p>
               </div>
             ) : (
-              sortedPosts.map((post) => {
+              sortedPosts.map((post, index) => {
                 const expanded = expandedPosts.has(post.id);
+                const staggerDelay = `${350 + index * 100}ms`;
 
                 return (
                   <article
                     key={post.id}
-                    className="bg-surface dark:bg-zinc-900 rounded-2xl border border-border dark:border-zinc-800 overflow-hidden transition-all hover:shadow-lg"
+                    style={{ animationDelay: staggerDelay }}
+                    className="bg-surface dark:bg-zinc-900 rounded-2xl border border-border dark:border-zinc-800 overflow-hidden transition-all hover:shadow-lg animate-fade-in"
                   >
                     {/* Post Header */}
                     <div className="p-6">

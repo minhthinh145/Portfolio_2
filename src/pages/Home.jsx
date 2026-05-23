@@ -84,7 +84,7 @@ const BRAND = {
     imgPadding: "",
     imgFilter:  "none",
     imgFilterHover: "brightness(1.05) saturate(1.1)",
-    lifeId:    "nab",
+    lifeId:    "life-at-nab",
     clickable: true,
   },
 
@@ -102,7 +102,7 @@ const BRAND = {
     imgPadding: "p-[10px]",
     imgFilter:  "none",
     imgFilterHover: "none",
-    lifeId:    "bosch",
+    lifeId:    "life-at-bosch",
     clickable: true,
   },
 
