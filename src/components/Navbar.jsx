@@ -33,6 +33,7 @@ export default function Navbar() {
     const next = isDark ? "light" : "dark";
     applyTheme(next);
     setIsDark(!isDark);
+    window.dispatchEvent(new Event("theme-change"));
   };
 
   const isActive = (path) => location.pathname === path;

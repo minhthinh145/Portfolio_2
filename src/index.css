@@ -66,22 +66,6 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-dark-primary);
 }
 
-/* Media query fallback if no class set */
-@media (prefers-color-scheme: dark) {
-  body:not(.light-forced) {
-    background-color: var(--color-dark-background);
-    color: var(--color-dark-text);
-  }
-  
-  body:not(.light-forced) h1,
-  body:not(.light-forced) h2,
-  body:not(.light-forced) h3,
-  body:not(.light-forced) h4,
-  body:not(.light-forced) h5,
-  body:not(.light-forced) h6 {
-    color: var(--color-dark-primary);
-  }
-}
 
 
 /* Utility Classes */

@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowDown,
@@ -434,11 +434,50 @@ function ExperienceCard({ exp, index, onNavigate }) {
   );
 }
 
+const getAdjustedColor = (hex, isDark) => {
+  if (isDark) return hex;
+  const overrides = {
+    "#61DAFB": "#087EA4", // React (darker blue)
+    "#06B6D4": "#0369A1", // Tailwind (darker cyan)
+    "#339933": "#166534", // Node.js (darker green)
+    "#6DB33F": "#4D832F", // Spring Boot (darker green)
+    "#44B78B": "#0F766E", // Django (darker teal)
+    "#FF9900": "#B45309", // AWS (darker orange)
+    "#47A248": "#15803D", // MongoDB (darker green)
+  };
+  return overrides[hex.toUpperCase()] || hex;
+};
+
 // ─── Home page ─────────────────────────────────────────────────────────────
 export default function Home() {
   const { personal } = globalData;
   const { skills, experiences, education } = homeData;
   const navigate = useNavigate();
+
+  // Dark mode reactive state
+  const [isDark, setIsDark] = useState(() =>
+    document.documentElement.classList.contains("dark")
+  );
+
+  useEffect(() => {
+    const handleThemeChange = () => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    };
+    window.addEventListener("theme-change", handleThemeChange);
+    
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleSystemChange = () => {
+      if (!localStorage.getItem("portfolio-theme")) {
+        setIsDark(mediaQuery.matches);
+      }
+    };
+    mediaQuery.addEventListener("change", handleSystemChange);
+    
+    return () => {
+      window.removeEventListener("theme-change", handleThemeChange);
+      mediaQuery.removeEventListener("change", handleSystemChange);
+    };
+  }, []);
 
   // Transition state
   const [transition, setTransition] = useState(null); // null | { brand, lifeId }
@@ -489,12 +528,12 @@ export default function Home() {
                 , currently pursuing a strong foundation in software engineering and computer science.
               </p>
               <p className="text-sm md:text-base text-text-muted dark:text-zinc-300">
-                I am currently a Software Engineer Intern at{" "}
-                <a href="https://www.bosch.com.vn/" target="_blank" rel="noopener noreferrer"
+                I am an <span className="font-semibold text-primary dark:text-white">Ex-BOSCH</span> Software Engineer Intern and currently a <span className="font-semibold text-primary dark:text-white">Software Engineer</span> at{" "}
+                <a href="https://www.nab.com.au/about-us/careers/nabvietnam" target="_blank" rel="noopener noreferrer"
                   className="text-accent font-semibold hover:underline">
-                  BOSCH Global Software Vietnam (BGSV)
+                  NAB Innovation Centre Vietnam
                 </a>
-                , where I contribute to building high-quality, scalable, and production-ready web applications.
+                , with nearly 1 year of experience building high-quality, scalable web applications.
               </p>
             </div>
           </div>
@@ -589,6 +628,7 @@ export default function Home() {
                   <div className="flex flex-wrap gap-3">
                     {skill.items.map((item) => {
                       const TechLogo = techLogoMap[item.name];
+                      const adjustedColor = getAdjustedColor(item.color, isDark);
                       return (
                         <span
                           key={item.name}
@@ -596,20 +636,20 @@ export default function Home() {
                             item.highlight ? "ring-2 ring-offset-2 ring-offset-background dark:ring-offset-zinc-800" : ""
                           }`}
                           style={{
-                            backgroundColor: `${item.color}20`,
-                            color: item.color,
-                            ...(item.highlight && { boxShadow: `0 0 12px ${item.color}40` }),
+                            backgroundColor: `${adjustedColor}15`,
+                            color: adjustedColor,
+                            ...(item.highlight && { boxShadow: `0 0 12px ${adjustedColor}30` }),
                           }}
                         >
                           {TechLogo ? (
-                            <TechLogo size={18} style={{ color: item.color }} />
+                            <TechLogo size={18} style={{ color: adjustedColor }} />
                           ) : (
-                            <span className="w-4 h-4 rounded-full" style={{ backgroundColor: item.color }} />
+                            <span className="w-4 h-4 rounded-full" style={{ backgroundColor: adjustedColor }} />
                           )}
                           {item.name}
                           {item.highlight && (
                             <span className="text-xs px-1.5 py-0.5 rounded font-bold"
-                              style={{ backgroundColor: `${item.color}30` }}>★</span>
+                              style={{ backgroundColor: `${adjustedColor}25` }}>★</span>
                           )}
                         </span>
                       );

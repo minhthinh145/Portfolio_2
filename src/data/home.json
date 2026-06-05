@@ -14,11 +14,10 @@
       "name": "Backend Frameworks",
       "icon": "Server",
       "items": [
-        { "name": "Java Spring Boot", "color": "#6DB33F", "emoji": "🍃", "highlight": true },
+        { "name": "Java Spring Boot", "color": "#6DB33F", "emoji": "🍃" },
         { "name": "ASP.NET Core", "color": "#512BD4", "emoji": "🟣", "highlight": true },
         { "name": "Node.js", "color": "#339933", "emoji": "💚" },
-        { "name": "Python Django", "color": "#44B78B", "emoji": "🐍" },
-        { "name": "PHP Laravel", "color": "#FF2D20", "emoji": "🔺" }
+        { "name": "Python Django", "color": "#44B78B", "emoji": "🐍", "highlight": true }
       ]
     },
     {
@@ -57,7 +56,7 @@
       "company": "NAB Innovation Centre Vietnam",
       "companyUrl": "https://www.nab.com.au/about-us/careers/nabvietnam",
       "logo": "/images/nabvietnam_logo.jpg",
-      "description": "Preparing for onboarding in June 2026 at NAB Innovation Centre Vietnam, with a focus on enterprise‑grade engineering and collaborative delivery."
+      "description": "Working as a Software Engineer at NAB Innovation Centre Vietnam, focusing on enterprise-grade engineering, scalable systems, and collaborative delivery."
     },
     {
       "year": "Mar 2026 - Jun 2026",
@@ -81,7 +80,7 @@
       "degree": "B.S. in Information Technology",
       "school": "University of Education - HCMUE",
       "schoolUrl": "https://hcmue.edu.vn/vi/",
-      "gpa": "3.36/4.0",
+      "gpa": "3.4/4.0",
       "achievements": [
         "Academic Incentive Scholarship - Top 5 students (Semester 2, 2024–2025)",
         "AEON 1% Scholarship for Academic & Extracurricular Excellence (2025-2027)"

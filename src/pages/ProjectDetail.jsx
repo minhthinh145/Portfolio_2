@@ -134,15 +134,15 @@ export default function ProjectDetail() {
                 return tech ? (
                   <div
                     key={techId}
-                    className="flex items-center gap-2 px-3 py-2 bg-accent/10 rounded-lg"
+                    className="flex items-center gap-2 px-3 py-2 bg-accent/10 text-accent font-medium rounded-lg"
                   >
                     <img src={tech.logo} alt={tech.name} className="w-6 h-6" />
-                    <span className="text-sm font-medium">{tech.name}</span>
+                    <span className="text-sm">{tech.name}</span>
                   </div>
                 ) : (
                   <span
                     key={techId}
-                    className="px-3 py-2 bg-accent/10 text-sm rounded-lg"
+                    className="px-3 py-2 bg-accent/10 text-accent text-sm font-medium rounded-lg"
                   >
                     {techId}
                   </span>
