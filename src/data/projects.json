@@ -3,7 +3,7 @@
     {
       "id": 1,
       "title": "ThinhPay - Digital Payment Platform",
-      "description": "A Modular Monolith fintech system simulating core banking operations. Built with Domain-Driven Design (DDD) and Hexagonal Architecture. Features secure RESTful APIs, JWT authentication, and Redis caching. Full-stack with Angular frontend and Spring Boot backend.",
+      "description": "[Tạm ngưng vì không còn định hướng Java] A Modular Monolith fintech system simulating core banking operations. Built with Domain-Driven Design (DDD) and Hexagonal Architecture. Features secure RESTful APIs, JWT authentication, and Redis caching. Full-stack with Angular frontend and Spring Boot backend.",
       "image": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop",
       "category": "Fintech",
       "tech": ["Java Spring Boot", "Angular", "Spring Security", "Redis", "PostgreSQL", "Docker"],
